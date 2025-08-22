@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/layout.css">
 
 		
-		<title> 击破队最后的辉煌(HSR3.0) -  Hexo</title>
+		<title> Histgen_Paper -  Hexo</title>
 		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
 		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
 		
@@ -328,32 +328,167 @@
 		
 		<div class="kira-post-cover">
 			<img
-				data-src="/img/wallhaven-wejr1p_1920x1080.png"
+				data-src="/img/Histgen.png"
 				data-sizes="auto"
-				alt="击破队最后的辉煌(HSR3.0)"
+				alt="Histgen_Paper"
 				class="lazyload kira-post-cover-image disabled-kira-image"
 			/>
-			<h1>击破队最后的辉煌(HSR3.0)</h1>
+			<h1>Histgen_Paper</h1>
 		</div>
 		
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2025年08月21日</a>
-			<a><i class="kirafont icon-edit-fill"></i>111 字</a>
-			<a><i class="kirafont icon-time-circle-fill"></i>大概 1 分钟</a>
+			<a><i class="kirafont icon-calendar-fill"></i>2025年08月23日</a>
+			<a><i class="kirafont icon-edit-fill"></i>1k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 4 分钟</a>
 		</div>
-		<html><head></head><body><p>虚构更新前夜调了调仪器，把流萤速度堆到154尝试了一下。先是伤害差一点，把王贵人光锥换成决心后充能又不够了。击破绳换了充能绳之后应该是稳定0T了。虽然比较极限。  </p>
-<iframe src="https://player.bilibili.com/player.html?bvid=BV1ryFyeDEUH&amp;page=11&amp;as_wide=1&amp;high_quality=1&amp;danmaku=1" style="width: 62em; height: 35em;" allowfullscreen="allowfullscreen" width="100%" height="100%" scrolling="no" frameborder="0" sandbox="allow-top-navigation allow-same-origin allow-forms allow-scripts"></iframe>
+		<html><head></head><body><h1><span id="histgen">Histgen</span></h1><hr>
+<img src="/2025/08/23/Histgen-Paper/Histgen.png" class="" width="500" height="400">
 
-
-<img src="/2025/08/21/%E5%87%BB%E7%A0%B4%E9%98%9F%E6%9C%80%E5%90%8E%E7%9A%84%E8%BE%89%E7%85%8CHSR3-0/IMG_0565.JPEG" class="" width="500" height="400">
-<p>从此以后我再也没有用击破队打出过0T，现在甚至满心都有点困难，我还是二星魂完全体队伍呢。</p>
-</body></html>
+<hr>
+<blockquote>
+<p><strong>Code：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/dddavid4real/HistGen">https://github.com/dddavid4real/HistGen</a></p>
+<hr>
+<p><strong>Data：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/datasets/david4real/HistGen">https://huggingface.co/datasets/david4real/HistGen</a></p>
+</blockquote>
+<hr>
+<h2><span id="abstract">Abstract</span></h2><ul>
+<li>自动生成病理学报告，减轻工作量</li>
+<li>Pathology 是 癌症诊断的黄金标准</li>
+<li>基于多实例学习并且发布了数据集</li>
+<li>两个模块<ul>
+<li>局部-全局分层编码器</li>
+<li>跨模态上下文模块</li>
+</ul>
+</li>
+<li>有强大迁移学习能力</li>
+</ul>
+<hr>
+<h2><span id="introduction">Introduction</span></h2><ul>
+<li><strong>Background</strong>：<ul>
+<li>数字化WSI得以普及，推动CPATH发展</li>
+<li>WSI Gigabyte 和GPU的限制，MIL被用于WSI分析</li>
+</ul>
+</li>
+<li><strong>Motivation</strong>：<ul>
+<li>撰写报告是劳动密集且容易出错的任务，自动化生成很有前景</li>
+<li>MIL 领域集中在WSI级别的预测，很少有WSI report 生成</li>
+</ul>
+</li>
+<li><strong>Challenges</strong>：<ul>
+<li>缺少数据集，数据集主要关注patch级别的图像和标题，忽略了全面，全局性的描述</li>
+<li>WSI 图像巨大，阻碍现有方法直接使用</li>
+<li>WSI patch 信息密度高（密集的视觉信号）  → 简介的诊断报告(离散的文本标记)</li>
+<li>WSI 依赖于MIL，需要pre-train的特征提取器，这是一个关键瓶颈，阻碍了WSI报告的最佳性能</li>
+</ul>
+</li>
+<li><strong>Contributions</strong>：<ul>
+<li>构建了标注数据集</li>
+<li>提出局部-全局分层视觉编码器</li>
+<li>跨模态上下文模块</li>
+<li>pre-train一个通用MIL特征提取器</li>
+<li>通过实验验证了模型的优越性</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2><span id="method">Method</span></h2><ul>
+<li><p>dataset</p>
+<ul>
+<li>从TCGA下载诊断报告pdf</li>
+<li>使用GPT-4进行清洗和摘要</li>
+<li>将病例ID和WSI进行匹配，形成一个77753样本的WSI-报告数据集</li>
+</ul>
+</li>
+<li><p>Histgen 框架</p>
+<ol>
+<li>LGH：使用预训练backbone进行提取patch feature，然后从局部到全局方式进行编码</li>
+<li>CMC：链接视觉和文本两种不同的模态，存储迭代中的只是供模型参考</li>
+<li>decoder：生成报告</li>
+<li>transfer learning 模型微调用于WSI级别的下游任务</li>
+</ol>
+</li>
+<li><p><strong>LGH</strong></p>
+<ul>
+<li>局部编码，全局交互，信息融合</li>
+</ul>
+</li>
+<li><p><strong>CMC</strong></p>
+<ul>
+<li>作为一个外部存贮器，可以被迭代访问和更新<ul>
+<li>对于视觉输入，通过交叉注意力原型学习选取关键补丁作为query，避免序列冗余。CMC生成response，随后聚合会原始视觉特征中，为其注入跨模态信息。这种交互也用哦关于解码器的文本嵌入</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Loss function</p>
+<ul>
+<li>最大化给定WSI I的情况下生成T的概率</li>
+</ul>
+<p>  $$<br>  \theta^*=\text{argmax}<em>\theta \sum</em>{i=1}^t\text{log}P(y_i|y_1,y_2,…,y_{i-1},I;\theta)<br>  $$</p>
+</li>
+</ul>
+<hr>
+<h2><span id="experiment--results">Experiment &amp; Results</span></h2><h3><span id="implementation">Implementation</span></h3><ul>
+<li>Implementation Details<ul>
+<li>Train: test: val = 8:1:1</li>
+<li>癌症亚型分类：为了测试迁移学习的能力三个外部数据集：UBC-OCEAN、Camelyon和TUPAC16</li>
+<li>生存分析：在TCGA的六个数据集上进行评估</li>
+</ul>
+</li>
+<li>Evaluation Metrix：<ul>
+<li>NLG：包括BLEU、METEOR和ROUGE-L</li>
+<li>分类使用蒙特卡洛交叉验证的准确率和AUC</li>
+<li>生存分析使用蒙特卡洛交叉验证的c-index</li>
+</ul>
+</li>
+<li>模型设置<ul>
+<li>特征提取器采用预训练的 DINOOv2 ViT-L，hidden dimension为1024</li>
+<li>LGH模块区域大小为96，解码器为三层的transformer，8个attention head，隐藏状态维度为512</li>
+<li>CMC dimension 512 x 2048</li>
+<li>learning rate 1e-4</li>
+<li>推理时采用beam search 波束大小为3</li>
+</ul>
+</li>
+<li>WSI 报告生成结果<ul>
+<li>ImageNet预训练的ResNet50、WSI上预训练的CTransPath以及本文的莫i选哪个</li>
+<li>本文的提升更加显著</li>
+<li>在所有指标上提升了约3%</li>
+</ul>
+</li>
+<li>消融实验<ul>
+<li>以基础模型作为起点(transformer + pooling)</li>
+<li>叠加LGH和CMC会带来性能的持续提升</li>
+</ul>
+</li>
+<li>Transfer learning<ul>
+<li>为了证明模型学到了诊断相关信息，将预训练好的模型微调并应用于下游任务</li>
+<li>癌症亚型分类：<ul>
+<li>显著优于传统方法</li>
+</ul>
+</li>
+<li>生存分析：所有6个数据集上保持了最高的平均分</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2><span id="conclusion">Conclusion</span></h2><ul>
+<li><strong>核心贡献</strong> 引入了 Histgen 一个MIL 框架增强自动化report生成</li>
+<li><strong>模型设计</strong> local-global 信息，对齐跨模态编码和解码阶段来工作</li>
+<li><strong>数据集</strong> 整理了一个数据集</li>
+<li><strong>结果</strong> 优于传统任务</li>
+<li><strong>局限性</strong> 范围仅限于组织病理学，扩展到其他领域，将跨领域的报告生成视为一个同一问题</li>
+</ul>
+<hr>
+<h2><span id="appendix">Appendix</span></h2><hr>
+<h2><span id="discussion">Discussion</span></h2></body></html>
 	</article>
 
 	 
     <div class="kira-post-copyright">
         <strong>Author：</strong>Adam Chen<br>
-        <strong>Link：</strong><a href="https://517adam.github.io/2025/08/21/%E5%87%BB%E7%A0%B4%E9%98%9F%E6%9C%80%E5%90%8E%E7%9A%84%E8%BE%89%E7%85%8CHSR3-0/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;21&#x2F;击破队最后的辉煌HSR3-0&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;21&#x2F;击破队最后的辉煌HSR3-0&#x2F;</a><br>
+        <strong>Link：</strong><a href="https://517adam.github.io/2025/08/23/Histgen-Paper/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;23&#x2F;Histgen-Paper&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;23&#x2F;Histgen-Paper&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -369,7 +504,7 @@
 	<div class="kira-post-meta kira-rainbow">
 		
 		
-			<a class="kirafont icon-tag-fill -none-link" href="/tags/game/" rel="tag">game</a>
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/Paper-Reading-Pathology/" rel="tag">Paper Reading(Pathology)</a>
 		
 	</div>
 	
