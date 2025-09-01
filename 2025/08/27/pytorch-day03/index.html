@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/layout.css">
 
 		
-		<title> 2025/8/25 -  Hexo</title>
+		<title> pytorch-day03 -  Hexo</title>
 		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
 		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
 		
@@ -326,32 +326,43 @@
 <div class="kira-post">
 	<article>
 		
-		<div class="kira-post-cover">
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
 			<img
-				data-src="/img/IMG_0539.JPEG"
+				data-src="/img/bg.png"
 				data-sizes="auto"
-				alt="2025/8/25"
+				alt="pytorch-day03"
 				class="lazyload kira-post-cover-image disabled-kira-image"
 			/>
-			<h1>2025/8/25</h1>
+			<h1>pytorch-day03</h1>
 		</div>
 		
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2025年08月25日</a>
-			<a><i class="kirafont icon-edit-fill"></i>310 字</a>
+			<a><i class="kirafont icon-calendar-fill"></i>2025年08月27日</a>
+			<a><i class="kirafont icon-edit-fill"></i>216 字</a>
 			<a><i class="kirafont icon-time-circle-fill"></i>大概 1 分钟</a>
 		</div>
-		<html><head></head><body><p>好的，今天又是什么都没有做的一天。中午家里聚餐回来直接昏睡一个下午。回来躺在床上手机拿起来就放不下。我始终觉得刷短视频不如玩一会游戏，玩游戏不如学一点乱七八糟的知识，学乱七八糟的不如学正经知识。但是总是在使用最没有意义的行为浪费时间。  </p>
-<p>新的手柄到了，果然是一分钱一分货，用起来按键的手感，整体的做工好了不知一点。我也是从来没吃过好的，中高端的手柄都没有体验过。对于我这种游戏大的不多的，似乎高级手柄确实有一点感知不强。这种100~300之间的手柄刚刚好。以后再换手柄就在同价位里换一个别的，也不考虑升级了。</p>
-<p>争取明天早上能够早起学习。下午我想学一下大模型的八股。教授总是不回waiver，明天催他一下，同时也要做好一下上别的课和自学的准备。晚上要开始修复一下数据准备模型复现，这个周四我不要赶工。</p>
-<img src="/2025/08/25/2025-8-24/128924827_p0_master1200.jpg" class="" width="500" height="400">
-</body></html>
+		<html><head></head><body><h1><span id="text-data-modeling-example">Text data Modeling Example</span></h1><ul>
+<li>IMDB数据集的目标是预测评论的情感标签</li>
+</ul>
+<h2><span id="%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86">数据预处理</span></h2><ul>
+<li>这里似乎只用了一个简单的构建词表，然后hard code每一个词？没有用到任何word-embedding。我很好奇这真的有用吗</li>
+<li>这里我们定义了一个类用来处理数据<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ImdbDataset</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,df</span>):</span><br><span class="line">        <span class="variable language_">self</span>.df = df</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.df)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self,index</span>):</span><br><span class="line">        text = <span class="variable language_">self</span>.df[<span class="string">"text"</span>].iloc[index]</span><br><span class="line">        label = torch.tensor([<span class="variable language_">self</span>.df[<span class="string">"label"</span>].iloc[index]]).<span class="built_in">float</span>()</span><br><span class="line">        tokens = torch.tensor(text_pipeline(text)).<span class="built_in">int</span>() </span><br><span class="line">        <span class="keyword">return</span> tokens,label</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure></li>
+<li>使用这种模板是一种不错的选择，可以构建适用于每个不同task的dataloader</li>
+</ul>
+<h2><span id="define-the-model">Define the model</span></h2><ul>
+<li><del>使用的疑似是一维的因果卷积？</del> 是一个简单的1D 卷积</li>
+<li>1D conv用于特征提取而因果卷积用于时序建模</li>
+</ul>
+<h3><span id="%E8%AE%AD%E7%BB%83%E4%BB%A3%E7%A0%81%E5%90%8C%E5%89%8D%E4%B8%8D%E6%98%AF%E6%88%91%E5%96%9C%E6%AC%A2%E7%9A%84%E7%9B%B4%E6%8E%A5%E4%B8%8D%E5%AD%A6">训练代码同前，不是我喜欢的直接不学</span></h3></body></html>
 	</article>
 
 	 
     <div class="kira-post-copyright">
         <strong>Author：</strong>Adam Chen<br>
-        <strong>Link：</strong><a href="https://517adam.github.io/2025/08/25/2025-8-24/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;25&#x2F;2025-8-24&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;25&#x2F;2025-8-24&#x2F;</a><br>
+        <strong>Link：</strong><a href="https://517adam.github.io/2025/08/27/pytorch-day03/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;27&#x2F;pytorch-day03&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;27&#x2F;pytorch-day03&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -367,7 +378,7 @@
 	<div class="kira-post-meta kira-rainbow">
 		
 		
-			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E6%97%A5%E5%AF%84/" rel="tag">日寄</a>
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
 		
 	</div>
 	
