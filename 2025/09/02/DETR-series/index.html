@@ -68,7 +68,7 @@
     </a>
     <a href="/" title="Yuanzhong Chen&#39;s Blog">
         <img
-			src="/img/avatar.png"
+			src="/img/avatar1.jpeg"
 			alt="Adam Chen"
 		/>
     </a>
@@ -76,9 +76,9 @@
 		<div class="kira-body">
 			<div class="kira-sidebar" id="sidebar">
 	<div class="kira-avatar mdui-ripple">
-		<a href="/img/avatar.png" title="Adam Chen">
+		<a href="/img/avatar1.jpeg" title="Adam Chen">
 			<img
-				src="/img/avatar.png"
+				src="/img/avatar1.jpeg"
 				alt="Adam Chen"
 			/>
 		</a>
@@ -341,13 +341,118 @@
 		
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
 			<a><i class="kirafont icon-calendar-fill"></i>2025年09月02日</a>
-			<a><i class="kirafont icon-edit-fill"></i>14 字</a>
-			<a><i class="kirafont icon-time-circle-fill"></i>大概 1 分钟</a>
+			<a><i class="kirafont icon-edit-fill"></i>1.5k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 6 分钟</a>
 		</div>
-		<html><head></head><body><h1><span id="%E6%BC%94%E5%8F%98%E8%BF%87%E7%A8%8B">演变过程</span></h1><h2><span id="detr---deformation-detr---dab-detr---dino">DETR -&gt; deformation DETR -&gt; DAB-DETR -&gt; DINO</span></h2><ul>
-<li>q</li>
+		<html><head></head><body><h1><span id="detr%E7%B3%BB%E5%88%97">DETR系列</span></h1><h1><span id="%E8%BF%9B%E5%8C%96%E7%9A%84%E6%B5%81%E7%A8%8B%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B">进化的流程(目标检测)</span></h1><ul>
+<li>DETR→ deformable DETR → DAB-DETR → DINO → HIPT(WSI)</li>
+<li>其中deformable DETR是由 deformable convolution 的启发设计而来</li>
 </ul>
-</body></html>
+<h1><span id="deformable-convolution">Deformable convolution</span></h1><h2><span id="overview">Overview</span></h2><ul>
+<li>传统的卷积都是固定形状的,对于某些与卷积形状不符的物体识别率较低。难以适应物体的尺度，姿态和形状变化</li>
+<li>提出了两个新模块<ul>
+<li>可变形卷积</li>
+<li>可变ROI</li>
+</ul>
+</li>
+<li>他们可以直接替换现在体系下的CNN模块，并使用标准反向传播算法进行端到端的训练</li>
+</ul>
+<h2><span id="contribution">Contribution</span></h2><h3><span id="deformable-convolution">Deformable convolution</span></h3><ul>
+<li>使用一个标准卷积和一个 <strong>偏移量</strong>学习， 通过一个并行的卷积层从前一层的特征途中即时学习得到的。网络根据输入动态变化形状</li>
+<li>可能学习到小数，因此通过双线性插值对特征进行采样</li>
+</ul>
+<h3><span id="deformable-roi-pooling">Deformable ROI Pooling</span></h3><ul>
+<li>在每一层pooling前为每个单元增加一个学习的偏移量</li>
+<li>偏移量由一个全连接层生成，输入是标准ROI池化的特征。对于非刚性物体尤其有用</li>
+<li>进一步提出了一个适用于R-FCN的位置敏感版本</li>
+</ul>
+<h2><span id="experiment--result">Experiment &amp; Result</span></h2><ul>
+<li>自适应感受野：deformable 的 reception field与物体尺寸有关，证明网络学习了根据图像内容进行调整</li>
+<li>稳定由于标准卷积和固定扩展率的卷积</li>
+</ul>
+<h1><span id="detr">DETR</span></h1><h2><span id="problem">Problem</span></h2><ul>
+<li>传统的目标检测一样基于先验知识的anchor box或proposal</li>
+<li>需要NMS进行后处理</li>
+<li>对超参数敏感</li>
+</ul>
+<h2><span id="method">Method</span></h2><p><strong>提出了一个端到端的学习方法，将目标检测视为一个 set prediction 问题，直接输出一个包含所有物体预测结果的无序集合</strong></p>
+<h3><span id="architecture">Architecture</span></h3><ul>
+<li>CNN backbone: 使用一个常规的CNN来提取图像的2D feature map</li>
+<li>Transformer Encoder-Decoder<ul>
+<li>Encoder： 利用self-attention处理CNN图像的特征，捕捉图像的全局上下文信息</li>
+<li>Decoder：接受一小组 <strong>固定的，学习的位置编码</strong>，成为 <strong>object queries.</strong> Encoder 通过？self-attention和对编码器输出的注意力机制，并行将查询解码成最终的物体预测结果</li>
+</ul>
+</li>
+</ul>
+<h3><span id="key-design">Key Design</span></h3><ul>
+<li>Set-based Loss with Biparitte Matching<ul>
+<li>模型输出一个固定大小的预测集合，大于图中实际物体的数量</li>
+<li>使用匈牙利算法，在模型和预测图之间寻找成本最低的二分图匹配，保证了每个真实物体只被分给了唯一的预测结果</li>
+</ul>
+</li>
+<li>Hungarian los：类别预测损失和边界框损失的线性组合，结合了L1 损失和尺度不表的GIOU 损失</li>
+</ul>
+<h2><span id="results">Results</span></h2><ul>
+<li>对大物体效果更优，对小物体的效果较差。</li>
+<li>需要更长的训练周期</li>
+<li>有优秀的可拓展性</li>
+</ul>
+<h1><span id="deformable-detr">Deformable DETR</span></h1><h2><span id="problem">Problem</span></h2><ul>
+<li>针对DETR的收敛速度满和小物体检测性能有限的问题，引入了一种新的 Deformable Attention Module，提升了训练效率和检测精度的同时保留了端到端的简洁设计</li>
+<li>除此以外，DETR需要巨大的计算和内存开销</li>
+</ul>
+<h2><span id="method">Method</span></h2><ul>
+<li>Deformable Attention Module<ul>
+<li>让注意力机制的query 只关注feature map上的一小组围绕某个参考点的关键采样点；而不是关注查询和所有像素直接的关系</li>
+<li>对于每个查询特征，通过一个线性变换预测少量采样点的2D offset. 注意力模块只在这些“参考点+偏移量”决定的稀疏位置上进行特征采样和加权聚合，而不是在整个特征图上进行.</li>
+<li>将注意力计算的复杂度和特征图的大小解耦；变成了 <strong>线性复杂度</strong>，从而高效处理高分辨率feature map；一开始关注稀疏的点，使模型的收敛速度也大大加快</li>
+</ul>
+</li>
+<li>Multi-scale deformable attention<ul>
+<li>将deformable attention扩展到多尺度特征图上，允许一个query同时从不同分辨率的特征图中得到关键点</li>
+<li>有效融合多尺度信息, <strong>无需</strong>使用 FPN等复杂结构</li>
+</ul>
+</li>
+<li>将院DETR编码器中的self-attention换成 multi-scale deformable attention; 内部的self-attention保持不变</li>
+<li><strong>参考点机制：</strong>decoder中的object query会预测一个2D参考点，作为deformable attention的中心；同时边界框也变为相对于参考点的偏移量；加速了收敛</li>
+</ul>
+<p>探索了两种变体：</p>
+<ul>
+<li>Iterative bounding box refinement: 解码器的每一层都会在前一层的bounding 框上进行优化，逐层细化结果</li>
+<li>两阶段DETR：<ul>
+<li>一个encoder only的阶段来生成高质量的proposals</li>
+<li>之后将这些候选区域作为object 送入第二阶段的decoder进行精细化处理</li>
+</ul>
+</li>
+</ul>
+<h2><span id="results">Results</span></h2><ul>
+<li>提升收敛速度</li>
+<li>提升小物体检测性能</li>
+<li>更高的效率和整体精度</li>
+</ul>
+<h1><span id="dab-detr">DAB-DETR</span></h1><h2><span id="problem">Problem</span></h2><ul>
+<li>收敛慢的问题存在，conditional DETR，Deformable DETR 引入显式的空间先验加速收敛，但是仍然存在核心缺陷：</li>
+<li><strong>忽略了物体的尺度信息</strong>： 只将query与一个2D 为支点(x,y) 关联，忽略了物体的宽度和高度；导致注意力先验是各向同性的。无法适应不同形状和尺寸的物体</li>
+</ul>
+<h2><span id="method">Method</span></h2><ul>
+<li>将锚框作为query (Anchor Boxes as Queries):<ul>
+<li>query 不是高维向量，而是4D的锚框坐标通过一个positional encoding和 小型MLP生成；提供了更明确，更丰富的先验信息</li>
+</ul>
+</li>
+<li>逐层动态更新锚框<ul>
+<li>在每个decoder层；预测一个对于当前层锚框的偏移量。用来更新锚框，并作为下一层的输入</li>
+</ul>
+</li>
+<li>宽高限制的注意力机制<ul>
+<li>使用锚框的w 和 h调整位置注意力图：将原本的原型高斯注意力先验调整为能够匹配物体真实形状的椭圆形</li>
+</ul>
+</li>
+<li>注意力温度系数调优<ul>
+<li>相比于NLP中的T=10000，在视觉任务中T=20是一个更好的选择</li>
+</ul>
+</li>
+</ul>
+<h1><span id="dino">DINO</span></h1></body></html>
 	</article>
 
 	 
