@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html 
+	lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> pytorch-day-05 -  Yuanzhong Chen&#39;s Blog</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link
+			rel="shortcut icon"
+			href=""
+			type="image/jpg"
+		/>
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('/img/bg.png')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="Yuanzhong Chen&#39;s Blog">
+        <img
+			src="/img/avatar1.jpeg"
+			alt="Adam Chen"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a href="/img/avatar1.jpeg" title="Adam Chen">
+			<img
+				src="/img/avatar1.jpeg"
+				alt="Adam Chen"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>23</div>
+		<div><span>标签</span>7</div>
+		<div><span>分类</span>0</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont
+					
+						icon-home
+					"
+			></i>
+			<div class="kira-list-item-content">
+				回到首页
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive.html"
+			title="文章归档"
+		>
+			<i
+				class="kirafont
+					
+						icon-container
+					"
+			></i>
+			<div class="kira-list-item-content">
+				文章归档
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about.html"
+			title="关于本人"
+		>
+			<i
+				class="kirafont
+					
+						icon-user
+					"
+			></i>
+			<div class="kira-list-item-content">
+				关于本人
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends.html"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont
+					
+						icon-team
+					"
+			></i>
+			<div class="kira-list-item-content">
+				我的朋友
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a
+				class="mdui-ripple"
+				href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=<去掉尖括号后填上你的QQ号>&website=www.oicqzone.com"
+				target="_blank"
+				mdui-tooltip="{content: 'QQ'}"
+				style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);"
+			>
+				<i
+					class="kirafont
+					
+						icon-QQ
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://space.bilibili.com/422483974"
+				target="_blank"
+				mdui-tooltip="{content: '哔哩哔哩'}"
+				style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-bilibili
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://github.com/517adam/"
+				target="_blank"
+				mdui-tooltip="{content: 'GitHub'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-github
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://www.linkedin.com/in/your-linkedin-id/"
+				target="_blank"
+				mdui-tooltip="{content: 'LinkedIn'}"
+				style="color: rgb(165, 15, 15); background-color: rgba(165, 15, 15, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-linkedin
+					"
+				></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/tags/Deep-Learning-Method/" style="font-size: 10px;">Deep Learning Method</a> <a href="/tags/Paper-Reading-Pathology/" style="font-size: 10px;">Paper Reading(Pathology)</a> <a href="/tags/TOEFL/" style="font-size: 10px;">TOEFL</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/pytorch/" style="font-size: 15px;">pytorch</a> <a href="/tags/todo/" style="font-size: 10px;">todo</a> <a href="/tags/%E6%97%A5%E5%AF%84/" style="font-size: 20px;">日寄</a>
+		</div>
+		
+	</div>
+
+
+		
+			
+	<div class="kira-widget-wrap">
+		<h3 class="kira-widget-title">
+			Archive
+		</h3>
+		<div class="kira-widget">
+			<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/">2025</a><span class="archive-list-count">23</span></li></ul>
+		</div>
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2025
+		<a href="/">Adam Chen</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+		
+	</div>
+</div>
+<div
+	class="kira-sidebar-modal"
+	id="sidebar-modal"
+	onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"
+></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
+			<img
+				data-src="/img/bg.png"
+				data-sizes="auto"
+				alt="pytorch-day-05"
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1>pytorch-day-05</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2025年09月14日</a>
+			<a><i class="kirafont icon-edit-fill"></i>1.3k 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 6 分钟</a>
+		</div>
+		<html><head></head><body><h2><span id="%E5%BC%A0%E9%87%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B">张量的数据类型</span></h2><p>张量的数据类型与 <code>numpy.array</code> 基本一一对应，除了不支持str类型</p>
+<ul>
+<li>一般的神经网络用的是<code>torch.float32</code>类型</li>
+<li>如果要显示指定数据类型，可以使用<code>torch.tensor(data,dtype = torch.type)</code></li>
+<li>也可以使用特定的构造函数<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i = torch.Inttensor() <span class="comment">#构造数据类型为 int 的张量</span></span><br><span class="line">x = torch.Tensor() <span class="comment"># 构造数据类型为 float 的张量</span></span><br><span class="line">b = torch.BoolTensor() <span class="comment">#构造数据类型为 bool 的张量 </span></span><br></pre></td></tr></tbody></table></figure></li>
+<li>此外，还可以对不同类型的张量进行转化<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i = torch.tensor(<span class="number">1</span>)  <span class="comment"># 构建类型为int64的张量</span></span><br><span class="line">x = i.<span class="built_in">float</span>()    <span class="comment"># 调用float方法转换为float类型</span></span><br><span class="line">y = i.<span class="built_in">type</span>(torch.<span class="built_in">float</span>) <span class="comment"># 使用type函数转换为浮点类型</span></span><br><span class="line">z = i.type_as(x)  <span class="comment"># 使用type_as 方法转化为与某个Tensor相同类型的张量</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2><span id="%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%B4%E5%BA%A6">张量的维度</span></h2><h2><span id="%E5%BC%A0%E9%87%8F%E7%9A%84%E5%B0%BA%E5%AF%B8">张量的尺寸</span></h2><ul>
+<li>可以使用shape属性或者size() 方法查看张量在每一维的长度</li>
+<li>可以使用view方法改变张量的尺寸</li>
+<li>view失败的情况下，可以使用reshape方法<ul>
+<li><code>view</code> 和 <code>reshape</code> 的区别：<ol>
+<li>view方法要求原张量在内存中是连续的，如果不连续则会失败；reshape则会自动处理布局</li>
+<li>view方法总是与原张量共享内存，返回的是原向量的”视图”； reshape则可能返回视图或者副本,取决于内存的布局</li>
+</ol>
+</li>
+<li>为什么不只使用 <code>reshape</code><ol>
+<li><strong>性能考虑</strong> view 更快，因为只是改变张量的元数据不涉及数据复制；reshape可能涉及到复制数据，会有额外的开销</li>
+<li><strong>内存效率</strong> view保证内存共享，修改一个会影响另一个；reshape可能创建副本导致占用更多内存</li>
+<li><strong>语义的明确性</strong> view 明确表示期望的是内存共享的试图操作；当view失败时，提醒开发者注意<strong>内存布局</strong>问题</li>
+</ol>
+</li>
+<li>以下是失败情况的例子  <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 情况1: 转置后的张量不连续</span></span><br><span class="line">x = torch.randn(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">y = x.transpose(<span class="number">0</span>, <span class="number">1</span>)  <span class="comment"># 转置后内存不连续</span></span><br><span class="line"><span class="built_in">print</span>(y.is_contiguous())  <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 这会失败</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    z = y.view(<span class="number">2</span>, <span class="number">6</span>)</span><br><span class="line"><span class="keyword">except</span> RuntimeError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"view失败: <span class="subst">{e}</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># reshape可以成功</span></span><br><span class="line">z = y.reshape(<span class="number">2</span>, <span class="number">6</span>)  <span class="comment"># 成功</span></span><br><span class="line"><span class="built_in">print</span>(z.shape)  <span class="comment"># torch.Size([2, 6])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 情况2: 切片操作后的张量</span></span><br><span class="line">x = torch.randn(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">y = x[:, ::<span class="number">2</span>]  <span class="comment"># 非连续切片</span></span><br><span class="line"><span class="built_in">print</span>(y.is_contiguous())  <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># view失败，reshape成功</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    z = y.view(-<span class="number">1</span>)</span><br><span class="line"><span class="keyword">except</span> RuntimeError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"view失败: <span class="subst">{e}</span>"</span>)</span><br><span class="line"></span><br><span class="line">z = y.reshape(-<span class="number">1</span>)  <span class="comment"># 成功</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 有些操作会让张量存储结构扭曲，直接使用view会失败，可以用reshape方法</span></span><br><span class="line"></span><br><span class="line">matrix26 = torch.arange(<span class="number">0</span>,<span class="number">12</span>).view(<span class="number">2</span>,<span class="number">6</span>)</span><br><span class="line"><span class="built_in">print</span>(matrix26)</span><br><span class="line"><span class="built_in">print</span>(matrix26.shape)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转置操作让张量存储结构扭曲</span></span><br><span class="line">matrix62 = matrix26.t()</span><br><span class="line"><span class="built_in">print</span>(matrix62.is_contiguous())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 直接使用view方法会失败，可以使用reshape方法</span></span><br><span class="line"><span class="comment">#matrix34 = matrix62.view(3,4) #error!</span></span><br><span class="line">matrix34 = matrix62.reshape(<span class="number">3</span>,<span class="number">4</span>) <span class="comment">#等价于matrix34 = matrix62.contiguous().view(3,4)</span></span><br><span class="line"><span class="built_in">print</span>(matrix34)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<h2><span id="%E5%BC%A0%E9%87%8F%E4%B8%8Enumpy%E6%95%B0%E7%BB%84">张量与numpy数组</span></h2><ul>
+<li>可以使用numpy方法从tensor得到numpy数组，也可以用torch.from_numpy从numpy数组得到tensor. <ul>
+<li>两种方法共享数据内存，改变一个另一个也会随之改变</li>
+<li>可以用张量的clone 方法拷贝张量，中断这种关联</li>
+</ul>
+</li>
+<li>可以使用item方法从标量张量得到对应的python数值</li>
+<li>使用tolist方法从张量得到对应的python数值列表<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#torch.from_numpy函数从numpy数组得到Tensor</span></span><br><span class="line"></span><br><span class="line">arr = np.zeros(<span class="number">3</span>)</span><br><span class="line">tensor = torch.from_numpy(arr)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"before add 1:"</span>)</span><br><span class="line"><span class="built_in">print</span>(arr)</span><br><span class="line"><span class="built_in">print</span>(tensor)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"\nafter add 1:"</span>)</span><br><span class="line">np.add(arr,<span class="number">1</span>, out = arr) <span class="comment">#给 arr增加1，tensor也随之改变</span></span><br><span class="line"><span class="built_in">print</span>(arr)</span><br><span class="line"><span class="built_in">print</span>(tensor)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># numpy方法从Tensor得到numpy数组</span></span><br><span class="line"></span><br><span class="line">tensor = torch.zeros(<span class="number">3</span>)</span><br><span class="line">arr = tensor.numpy()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"before add 1:"</span>)</span><br><span class="line"><span class="built_in">print</span>(tensor)</span><br><span class="line"><span class="built_in">print</span>(arr)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"\nafter add 1:"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用带下划线的方法表示计算结果会返回给调用 张量</span></span><br><span class="line">tensor.add_(<span class="number">1</span>) <span class="comment">#给 tensor增加1，arr也随之改变 </span></span><br><span class="line"><span class="comment">#或： torch.add(tensor,1,out = tensor)</span></span><br><span class="line"><span class="built_in">print</span>(tensor)</span><br><span class="line"><span class="built_in">print</span>(arr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以用clone() 方法拷贝张量，中断这种关联</span></span><br><span class="line"></span><br><span class="line">tensor = torch.zeros(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用clone方法拷贝张量, 拷贝后的张量和原始张量内存独立</span></span><br><span class="line">arr = tensor.clone().numpy() <span class="comment"># 也可以使用tensor.data.numpy()</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"before add 1:"</span>)</span><br><span class="line"><span class="built_in">print</span>(tensor)</span><br><span class="line"><span class="built_in">print</span>(arr)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"\nafter add 1:"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#使用 带下划线的方法表示计算结果会返回给调用 张量</span></span><br><span class="line">tensor.add_(<span class="number">1</span>) <span class="comment">#给 tensor增加1，arr不再随之改变</span></span><br><span class="line"><span class="built_in">print</span>(tensor)</span><br><span class="line"><span class="built_in">print</span>(arr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># item方法和tolist方法可以将张量转换成Python数值和数值列表</span></span><br><span class="line">scalar = torch.tensor(<span class="number">1.0</span>)</span><br><span class="line">s = scalar.item()</span><br><span class="line"><span class="built_in">print</span>(s)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(s))</span><br><span class="line"></span><br><span class="line">tensor = torch.rand(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">t = tensor.tolist()</span><br><span class="line"><span class="built_in">print</span>(t)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">type</span>(t))</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2><span id="something-else">Something else</span></h2><h3><span id="%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%83%E6%95%B0%E6%8D%AE">什么是元数据</span></h3><ul>
+<li>元数据(metadata)描述数据张什么样而不是数据本身的信息，张量结构性的描述信息，不包括实际的数值<br>在 PyTorch 中，张量由“数据存储（storage）”与“元数据”两部分构成：</li>
+<li>数据存储：真正的数值内存区域</li>
+<li>元数据：描述如何解释这些数值的结构信息<br>典型元数据：shape、stride、dtype、device、storage_offset、requires_grad、layout、(可选) names<br>像 <code>view()</code> 这类操作只是改元数据（不复制数据）；而当现有 stride 组合无法支持新形状时，<code>reshape()</code> 会退化为复制，得到新的连续存储。</li>
+</ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.arange(<span class="number">12</span>)</span><br><span class="line">y = x.view(<span class="number">3</span>, <span class="number">4</span>)      <span class="comment"># 仅改元数据</span></span><br><span class="line"><span class="built_in">print</span>(y.shape, y.stride())</span><br><span class="line"></span><br><span class="line">t = y.t()             <span class="comment"># 转置改变stride</span></span><br><span class="line"><span class="built_in">print</span>(t.shape, t.stride(), t.is_contiguous())</span><br><span class="line"></span><br><span class="line"><span class="comment"># view失败</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    t.view(<span class="number">12</span>)</span><br><span class="line"><span class="keyword">except</span> RuntimeError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"view失败:"</span>, e)</span><br><span class="line"></span><br><span class="line"><span class="comment"># reshape自动处理（必要时复制）</span></span><br><span class="line">z = t.reshape(<span class="number">12</span>)</span><br><span class="line"><span class="built_in">print</span>(z.is_contiguous())</span><br></pre></td></tr></tbody></table></figure></body></html>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>Author：</strong>Adam Chen<br>
+        <strong>Link：</strong><a href="https://517adam.github.io/2025/09/14/pytorch-day-05/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;09&#x2F;14&#x2F;pytorch-day-05&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;09&#x2F;14&#x2F;pytorch-day-05&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
