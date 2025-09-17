@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html 
+	lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> pytorch-day08 -  Yuanzhong Chen&#39;s Blog</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link
+			rel="shortcut icon"
+			href=""
+			type="image/jpg"
+		/>
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('/img/bg.png')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="Yuanzhong Chen&#39;s Blog">
+        <img
+			src="/img/avatar1.jpeg"
+			alt="Adam Chen"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a href="/img/avatar1.jpeg" title="Adam Chen">
+			<img
+				src="/img/avatar1.jpeg"
+				alt="Adam Chen"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>28</div>
+		<div><span>标签</span>7</div>
+		<div><span>分类</span>0</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont
+					
+						icon-home
+					"
+			></i>
+			<div class="kira-list-item-content">
+				回到首页
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive.html"
+			title="文章归档"
+		>
+			<i
+				class="kirafont
+					
+						icon-container
+					"
+			></i>
+			<div class="kira-list-item-content">
+				文章归档
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about.html"
+			title="关于本人"
+		>
+			<i
+				class="kirafont
+					
+						icon-user
+					"
+			></i>
+			<div class="kira-list-item-content">
+				关于本人
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends.html"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont
+					
+						icon-team
+					"
+			></i>
+			<div class="kira-list-item-content">
+				我的朋友
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a
+				class="mdui-ripple"
+				href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=<去掉尖括号后填上你的QQ号>&website=www.oicqzone.com"
+				target="_blank"
+				mdui-tooltip="{content: 'QQ'}"
+				style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);"
+			>
+				<i
+					class="kirafont
+					
+						icon-QQ
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://space.bilibili.com/422483974"
+				target="_blank"
+				mdui-tooltip="{content: '哔哩哔哩'}"
+				style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-bilibili
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://github.com/517adam/"
+				target="_blank"
+				mdui-tooltip="{content: 'GitHub'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-github
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://www.linkedin.com/in/your-linkedin-id/"
+				target="_blank"
+				mdui-tooltip="{content: 'LinkedIn'}"
+				style="color: rgb(165, 15, 15); background-color: rgba(165, 15, 15, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-linkedin
+					"
+				></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/tags/Deep-Learning-Method/" style="font-size: 10px;">Deep Learning Method</a> <a href="/tags/Paper-Reading-Pathology/" style="font-size: 10px;">Paper Reading(Pathology)</a> <a href="/tags/TOEFL/" style="font-size: 10px;">TOEFL</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/pytorch/" style="font-size: 15px;">pytorch</a> <a href="/tags/todo/" style="font-size: 10px;">todo</a> <a href="/tags/%E6%97%A5%E5%AF%84/" style="font-size: 20px;">日寄</a>
+		</div>
+		
+	</div>
+
+
+		
+			
+	<div class="kira-widget-wrap">
+		<h3 class="kira-widget-title">
+			Archive
+		</h3>
+		<div class="kira-widget">
+			<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/">2025</a><span class="archive-list-count">28</span></li></ul>
+		</div>
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2025
+		<a href="/">Adam Chen</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+		
+	</div>
+</div>
+<div
+	class="kira-sidebar-modal"
+	id="sidebar-modal"
+	onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"
+></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
+			<img
+				data-src="/img/bg.png"
+				data-sizes="auto"
+				alt="pytorch-day08"
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1>pytorch-day08</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2025年09月17日</a>
+			<a><i class="kirafont icon-edit-fill"></i>579 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 2 分钟</a>
+		</div>
+		<html><head></head><body><h2><span id="%E4%BD%BF%E7%94%A8%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E5%92%8Cdnn%E4%BD%9C%E4%B8%BA%E7%A4%BA%E4%BE%8B%E8%BF%9B%E8%A1%8C%E6%BC%94%E7%A4%BA">使用线性回归和DNN作为示例进行演示</span></h2><ul>
+<li>首先手动创建训练数据集<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="number">400</span></span><br><span class="line">X = <span class="number">10</span>*torch.rand([n,<span class="number">2</span>])-<span class="number">5.0</span></span><br><span class="line">w0 = torch.tensor([[<span class="number">2.0</span>,<span class="number">3.0</span>]])</span><br><span class="line">b0 = torch.tensor([[<span class="number">10.0</span>]]) <span class="comment"># 这里为什么要创建一个二维的张量？</span></span><br><span class="line">Y = X@w0 + b0 + torch.normal(<span class="number">0.0</span>,<span class="number">2.0</span>,size=[n,<span class="number">1</span>])</span><br></pre></td></tr></tbody></table></figure></li>
+<li>创建数据管道<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">data_iter</span>(<span class="params">features, labels, batch_size=<span class="number">8</span></span>):</span><br><span class="line">    num_examples = <span class="built_in">len</span>(features)</span><br><span class="line">    indices = <span class="built_in">list</span>(<span class="built_in">range</span>(num_examples))</span><br><span class="line">    np.random.shuffle(indices)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,num_examples,batch_size):</span><br><span class="line">        indexs = torch.LongTensor(indices[i:<span class="built_in">min</span>(i + batch_size,num_examples)])</span><br><span class="line">        <span class="keyword">yield</span> features.index_select(<span class="number">0</span>, indexs), labels.index_select(<span class="number">0</span>,indexs)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2><span id="%E4%BD%8E%E9%98%B6api">低阶API</span></h2><ul>
+<li>Pytorch 的低阶API主要包括张量操作，计算图和自动微分<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># define the model</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LinearRegression</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="variable language_">self</span>.w = torch.randn_like(w0,requires_grad = <span class="literal">True</span>)</span><br><span class="line">        <span class="variable language_">self</span>.b = torch.zeros_like(b0,requires = <span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self,x</span>)</span><br><span class="line">        <span class="keyword">return</span> x@<span class="variable language_">self</span>.w0 + <span class="variable language_">self</span>.b</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">loss_func</span>(<span class="params">self,y_pred,y_true</span>):</span><br><span class="line">        <span class="keyword">return</span> torch.mean((y_pred - y_true)**<span class="number">2</span>/<span class="number">2</span>)</span><br><span class="line"><span class="comment"># train the model</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">train_step</span>(<span class="params">model, features, labels</span>):</span><br><span class="line">    predicitons = model.forward(features)</span><br><span class="line">    loss = model.loss_func(predictions, labels)</span><br><span class="line">    loss.backward()</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        model,w -= <span class="number">0.001</span>*model.w.grad</span><br><span class="line">        model.b -= <span class="number">0.001</span>*model.b.grad</span><br><span class="line"></span><br><span class="line">        model.w.grad.zero_()</span><br><span class="line">        model.b.grad.zero()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> loss</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2><span id="%E4%B8%AD%E9%98%B6api">中阶API</span></h2><ul>
+<li>包括各类模型层，损失函数，优化器，数据管道等等</li>
+<li>一般来说，都会使用这里的API，有的模型需要自定义一些新的模型层，才有可能会用到低阶API的内容<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># load the data</span></span><br><span class="line">ds = TensorDataset(X,Y)</span><br><span class="line">dl = DataLoader(ds,batch_size = <span class="number">10</span>,shuffle = <span class="literal">True</span>,num_workers = <span class="number">2</span>)</span><br><span class="line"><span class="comment"># define the model</span></span><br><span class="line">model = nn.Linear(<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">model.loss_fn = nn.MSELoss()</span><br><span class="line">model.optimizer = torch.optim.SGD(model.parameters(),lr =<span class="number">0.01</span>)</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2><span id="%E9%AB%98%E9%98%B6api">高阶API</span></h2><ul>
+<li>对于每个模型，可以自己定义自己的API封装，这一点就因人而异了。</li>
+<li>一般来说，可以把一些常用操作做成API用来调用，比如summary，eval等常用操作。</li>
+</ul>
+<h2><span id="something-else">Something else</span></h2><h3><span id="%E4%BB%80%E4%B9%88%E6%98%AFyields">什么是<code>yields</code></span></h3><ul>
+<li><code>yields</code> 将一个普通函数变成”生成器函数”，调用它不会立刻执行完，而是返回一个生成器对象</li>
+<li>每次遇到<code>yield</code> 会产出一个值并挂起函数状态；下次迭代会从挂起处据悉执行</li>
+<li>return 结束函数而 yield 可以多次产出多个值</li>
+</ul>
+<h3><span id="%E4%BB%80%E4%B9%88%E6%98%AF-num_worker">什么是 <code>num_worker</code></span></h3><ul>
+<li>指dataloader用多少个子进程并行加载/预取批次数据</li>
+<li>0：在主机成加载，最稳定，最省内存，最少坑</li>
+<li>1 开启多进程并行调用<code>getitem</code>，在后台异步读取，常见于有耗时 I/O 或 CPU 预处理时(图像解码，数据增强)提速</li>
+<li>更多worker会更快，但会占用更多内存</li>
+</ul>
+</body></html>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>Author：</strong>Adam Chen<br>
+        <strong>Link：</strong><a href="https://517adam.github.io/2025/09/17/pytorch-day08/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;09&#x2F;17&#x2F;pytorch-day08&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;09&#x2F;17&#x2F;pytorch-day08&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
