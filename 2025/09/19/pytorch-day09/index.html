@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html 
+	lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> pytorch-day09 -  Yuanzhong Chen&#39;s Blog</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link
+			rel="shortcut icon"
+			href=""
+			type="image/jpg"
+		/>
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('/img/bg.png')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="Yuanzhong Chen&#39;s Blog">
+        <img
+			src="/img/avatar1.jpeg"
+			alt="Adam Chen"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a href="/img/avatar1.jpeg" title="Adam Chen">
+			<img
+				src="/img/avatar1.jpeg"
+				alt="Adam Chen"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>30</div>
+		<div><span>标签</span>7</div>
+		<div><span>分类</span>0</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont
+					
+						icon-home
+					"
+			></i>
+			<div class="kira-list-item-content">
+				回到首页
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive.html"
+			title="文章归档"
+		>
+			<i
+				class="kirafont
+					
+						icon-container
+					"
+			></i>
+			<div class="kira-list-item-content">
+				文章归档
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about.html"
+			title="关于本人"
+		>
+			<i
+				class="kirafont
+					
+						icon-user
+					"
+			></i>
+			<div class="kira-list-item-content">
+				关于本人
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends.html"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont
+					
+						icon-team
+					"
+			></i>
+			<div class="kira-list-item-content">
+				我的朋友
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a
+				class="mdui-ripple"
+				href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=<去掉尖括号后填上你的QQ号>&website=www.oicqzone.com"
+				target="_blank"
+				mdui-tooltip="{content: 'QQ'}"
+				style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);"
+			>
+				<i
+					class="kirafont
+					
+						icon-QQ
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://space.bilibili.com/422483974"
+				target="_blank"
+				mdui-tooltip="{content: '哔哩哔哩'}"
+				style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-bilibili
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://github.com/517adam/"
+				target="_blank"
+				mdui-tooltip="{content: 'GitHub'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-github
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://www.linkedin.com/in/your-linkedin-id/"
+				target="_blank"
+				mdui-tooltip="{content: 'LinkedIn'}"
+				style="color: rgb(165, 15, 15); background-color: rgba(165, 15, 15, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-linkedin
+					"
+				></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/tags/Deep-Learning-Method/" style="font-size: 10px;">Deep Learning Method</a> <a href="/tags/Paper-Reading-Pathology/" style="font-size: 10px;">Paper Reading(Pathology)</a> <a href="/tags/TOEFL/" style="font-size: 10px;">TOEFL</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/pytorch/" style="font-size: 15px;">pytorch</a> <a href="/tags/todo/" style="font-size: 10px;">todo</a> <a href="/tags/%E6%97%A5%E5%AF%84/" style="font-size: 20px;">日寄</a>
+		</div>
+		
+	</div>
+
+
+		
+			
+	<div class="kira-widget-wrap">
+		<h3 class="kira-widget-title">
+			Archive
+		</h3>
+		<div class="kira-widget">
+			<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/">2025</a><span class="archive-list-count">30</span></li></ul>
+		</div>
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2025
+		<a href="/">Adam Chen</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+		
+	</div>
+</div>
+<div
+	class="kira-sidebar-modal"
+	id="sidebar-modal"
+	onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"
+></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
+			<img
+				data-src="/img/bg.png"
+				data-sizes="auto"
+				alt="pytorch-day09"
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1>pytorch-day09</h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2025年09月19日</a>
+			<a><i class="kirafont icon-edit-fill"></i>710 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 3 分钟</a>
+		</div>
+		<html><head></head><body><h2><span id="%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C">张量的结构操作</span></h2><h3><span id="%E5%BC%A0%E9%87%8F%E5%88%9B%E5%BB%BA">张量创建</span></h3><ul>
+<li>与numpy中创建array的方法相似<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = torch.tensor([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],dtype=torch.<span class="built_in">float</span>)</span><br><span class="line"></span><br><span class="line">b = torch.arange(<span class="number">1</span>,<span class="number">10</span>,step = <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">c = torch.linspace(<span class="number">0.0</span>,<span class="number">2</span>**<span class="number">3</span>,<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">d = torch.zeros((<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">e = torch.ones((<span class="number">3</span>,<span class="number">3</span>),dtype=torch.<span class="built_in">int</span>)</span><br><span class="line"></span><br><span class="line">f = torch.zeros_like(a,dtype = torch.<span class="built_in">float</span>)</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建服从某种分布的张量</span></span><br><span class="line"><span class="comment">## 均匀分布</span></span><br><span class="line"><span class="built_in">min</span>, <span class="built_in">max</span> = <span class="number">0</span>,<span class="number">10</span></span><br><span class="line">a = <span class="built_in">min</span> + (<span class="built_in">max</span> - <span class="built_in">min</span>)*torch.rand([<span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">## 正态分布</span></span><br><span class="line">b = torch.normal(mean = torch.zeros(<span class="number">3</span>,<span class="number">3</span>),std = torch.ones(<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">c = std*torch.randn((<span class="number">3</span>,<span class="number">3</span>)) + mean</span><br><span class="line"></span><br><span class="line"><span class="comment">## 整数随机排列</span></span><br><span class="line">d = torch.randperm(<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 特殊矩阵</span></span><br><span class="line">I = torch.eye(<span class="number">3</span>,<span class="number">3</span>)   <span class="comment"># 单位矩阵</span></span><br><span class="line"></span><br><span class="line">t = torch.diag(torch.tensor([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]))   <span class="comment"># 对角矩阵</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2><span id="%E7%B4%A2%E5%BC%95%E5%88%87%E7%89%87">索引切片</span></h2><ul>
+<li>方式也与numpy几乎一致，切片支持缺省参数和省略号</li>
+<li>对于不规则切片提取，可以使用<code>torch.index_select</code>, <code>torch.masked_select</code>,<code>torch.take</code></li>
+<li>如果通过修改张量某些元素得到新的张量，可以使用 <code>torch.where</code>, <code>torch.masked_fill</code>, <code>torch.index_fill</code></li>
+<li>省略号可以表示多个冒号，<code>a[...,1]</code></li>
+</ul>
+<h2><span id="%E7%BB%B4%E5%BA%A6%E5%8F%98%E6%8D%A2">维度变换</span></h2><ul>
+<li>相关的函数有 <code>torch.reshape</code>, <code>torch.squeeze</code>, <code>torch.unsqueeze</code>,<code>torch.transpose</code></li>
+</ul>
+<h2><span id="%E5%90%88%E5%B9%B6%E5%88%86%E5%89%B2">合并分割</span></h2><ul>
+<li>可以用<code>torch.cat</code> 和 <code>torch.stack</code> 方法讲多个张量合并，可以用<code>torch.split</code>方法讲一个张量分割</li>
+<li><code>torch.cat</code> 和 <code>torch.stack</code> 有略微区别：<code>torch.cat</code> 是连接，不会增加维度；而 <code>torch.stack</code> 是堆叠，会增加维度</li>
+<li><code>torch.split</code>是 <code>torch.cat</code>的逆运算，可以指定分割份数平均分割，也可以指定记录数量进行分割<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(abc_cat)</span><br><span class="line">a,b,c = torch.split(abc_cat,split_size_or_sections = <span class="number">2</span>,dim = <span class="number">0</span>) <span class="comment">#每份2个进行分割</span></span><br><span class="line"></span><br><span class="line">p,q,r = torch.split(abc_cat,split_size_or_sections =[<span class="number">4</span>,<span class="number">1</span>,<span class="number">1</span>],dim = <span class="number">0</span>) <span class="comment">#每份分别为[4,1,1]</span></span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2><span id="%E5%BC%A0%E9%87%8F%E7%9A%84%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97">张量的数学运算</span></h2><h3><span id="%E6%A0%87%E9%87%8F%E8%BF%90%E7%AE%97">标量运算</span></h3><ul>
+<li>标量运算符对张量实施逐元素运算，有些运算符对常用的运算符进行了重载，并且支持类似numpy 广播的特性</li>
+<li>还有一些特殊的运算符<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">x = torch.tensor([<span class="number">2.6</span>,-<span class="number">2.7</span>])</span><br><span class="line"><span class="built_in">print</span>(torch.<span class="built_in">round</span>(x)) <span class="comment">#保留整数部分，四舍五入</span></span><br><span class="line"><span class="built_in">print</span>(torch.floor(x)) <span class="comment">#保留整数部分，向下归整</span></span><br><span class="line"><span class="built_in">print</span>(torch.ceil(x))  <span class="comment">#保留整数部分，向上归整</span></span><br><span class="line"><span class="built_in">print</span>(torch.trunc(x)) <span class="comment">#保留整数部分，向0归整</span></span><br><span class="line">x = torch.tensor([<span class="number">2.6</span>,-<span class="number">2.7</span>])</span><br><span class="line"><span class="built_in">print</span>(torch.fmod(x,<span class="number">2</span>)) <span class="comment">#作除法取余数 </span></span><br><span class="line"><span class="built_in">print</span>(torch.remainder(x,<span class="number">2</span>)) <span class="comment">#作除法取剩余的部分，结果恒正</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 幅值裁剪</span></span><br><span class="line">x = torch.tensor([<span class="number">0.9</span>,-<span class="number">0.8</span>,<span class="number">100.0</span>,-<span class="number">20.0</span>,<span class="number">0.7</span>])</span><br><span class="line">y = torch.clamp(x,<span class="built_in">min</span>=-<span class="number">1</span>,<span class="built_in">max</span> = <span class="number">1</span>)</span><br><span class="line">z = torch.clamp(x,<span class="built_in">max</span> = <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line"><span class="built_in">print</span>(z)</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h2><span id="%E5%90%91%E9%87%8F%E8%BF%90%E7%AE%97">向量运算</span></h2><ul>
+<li>向量运算符在特定轴上运算，将一个向量映射到一个标量或另一个向量<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a = torch.arange(<span class="number">1</span>,<span class="number">10</span>).<span class="built_in">float</span>().view(<span class="number">3</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(torch.<span class="built_in">sum</span>(a))</span><br><span class="line"><span class="built_in">print</span>(torch.mean(a))</span><br><span class="line"><span class="built_in">print</span>(torch.<span class="built_in">max</span>(a))</span><br><span class="line"><span class="built_in">print</span>(torch.<span class="built_in">min</span>(a))</span><br><span class="line"><span class="built_in">print</span>(torch.prod(a)) <span class="comment">#累乘</span></span><br><span class="line"><span class="built_in">print</span>(torch.std(a))  <span class="comment">#标准差</span></span><br><span class="line"><span class="built_in">print</span>(torch.var(a))  <span class="comment">#方差</span></span><br><span class="line"><span class="built_in">print</span>(torch.median(a)) <span class="comment">#中位数</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cum扫描</span></span><br><span class="line">a = torch.arange(<span class="number">1</span>,<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(torch.cumsum(a,<span class="number">0</span>))</span><br><span class="line"><span class="built_in">print</span>(torch.cumprod(a,<span class="number">0</span>))</span><br><span class="line"><span class="built_in">print</span>(torch.cummax(a,<span class="number">0</span>).values)</span><br><span class="line"><span class="built_in">print</span>(torch.cummax(a,<span class="number">0</span>).indices)</span><br><span class="line"><span class="built_in">print</span>(torch.cummin(a,<span class="number">0</span>))</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+</body></html>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>Author：</strong>Adam Chen<br>
+        <strong>Link：</strong><a href="https://517adam.github.io/2025/09/19/pytorch-day09/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;09&#x2F;19&#x2F;pytorch-day09&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;09&#x2F;19&#x2F;pytorch-day09&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-nav">
+		<nav class="post-nav">
+			
+		</nav>
+	</div>
+	
+	<div class="kira-post-meta kira-rainbow">
+		
+		
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
