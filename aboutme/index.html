@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html 
+	lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+<link rel="stylesheet" href="/css/layout.css">
+
+		
+		<title> Yuanzhong Chen&#39;s Blog</title>
+		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
+		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
+		
+<link rel="stylesheet" href="/lib/mdui/mdui.min.css">
+
+		
+<script src="/lib/mdui/mdui.min.js"></script>
+
+		<!-- lazyload -->
+		
+<script src="/lib/lazysizes.js"></script>
+
+		<!-- smooth-scrolling -->
+		
+<script src="/lib/smooth-scrolling.js"></script>
+
+		<!-- highlight -->
+		
+<link rel="stylesheet" href="/lib/highlight/atom-one-dark.min.css">
+
+		
+<script src="/lib/highlight/highlight.min.js"></script>
+
+		<!-- 预置 kiraicon -->
+		
+<link rel="stylesheet" href="/lib/iconfont/iconfont.css">
+
+		
+		<link
+			rel="shortcut icon"
+			href=""
+			type="image/jpg"
+		/>
+		
+<link rel="stylesheet" href="/deps/css/APlayer.min.css">
+
+		
+		
+<script src="/deps/js/APlayer.min.js"></script>
+<script src="/deps/js/Meting.min.js"></script>
+
+	<meta name="generator" content="Hexo 7.3.0"></head>
+
+	<body>
+		<div
+			class="kira-background"
+			style="background-image: url('/img/bg.png')"
+		></div>
+		<div class="kira-header">
+    <a
+        class="kira-drawer-button mdui-ripple"
+        title="导航栏"
+        onclick="document.querySelector('.kira-sidebar-modal').classList.add('show');document.querySelector('.kira-sidebar#sidebar').classList.add('show');"
+    >
+        <i class="kirafont icon-menu"></i>
+    </a>
+    <a href="/" title="Yuanzhong Chen&#39;s Blog">
+        <img
+			src="/img/avatar1.jpeg"
+			alt="Adam Chen"
+		/>
+    </a>
+</div>
+		<div class="kira-body">
+			<div class="kira-sidebar" id="sidebar">
+	<div class="kira-avatar mdui-ripple">
+		<a href="/img/avatar1.jpeg" title="Adam Chen">
+			<img
+				src="/img/avatar1.jpeg"
+				alt="Adam Chen"
+			/>
+		</a>
+	</div>
+	<div class="kira-count">
+		<div><span>文章</span>30</div>
+		<div><span>标签</span>7</div>
+		<div><span>分类</span>0</div>
+	</div>
+	<div class="kira-list">
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/"
+			title="回到首页"
+		>
+			<i
+				class="kirafont
+					
+						icon-home
+					"
+			></i>
+			<div class="kira-list-item-content">
+				回到首页
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/archive.html"
+			title="文章归档"
+		>
+			<i
+				class="kirafont
+					
+						icon-container
+					"
+			></i>
+			<div class="kira-list-item-content">
+				文章归档
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/about.html"
+			title="关于本人"
+		>
+			<i
+				class="kirafont
+					
+						icon-user
+					"
+			></i>
+			<div class="kira-list-item-content">
+				关于本人
+			</div>
+		</a>
+		
+		<a
+			class="kira-list-item mdui-ripple false"
+			href="/friends.html"
+			title="我的朋友"
+		>
+			<i
+				class="kirafont
+					
+						icon-team
+					"
+			></i>
+			<div class="kira-list-item-content">
+				我的朋友
+			</div>
+		</a>
+		
+	</div>
+	<aside id="kira-sidebar">
+		
+			<div class="kira-widget-wrap">
+	<div class="kira-widget kira-social">
+		
+			<a
+				class="mdui-ripple"
+				href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=<去掉尖括号后填上你的QQ号>&website=www.oicqzone.com"
+				target="_blank"
+				mdui-tooltip="{content: 'QQ'}"
+				style="color: rgb(49, 174, 255); background-color: rgba(49, 174, 255, .1);"
+			>
+				<i
+					class="kirafont
+					
+						icon-QQ
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://space.bilibili.com/422483974"
+				target="_blank"
+				mdui-tooltip="{content: '哔哩哔哩'}"
+				style="color: rgb(231, 106, 141); background-color: rgba(231, 106, 141, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-bilibili
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://github.com/517adam/"
+				target="_blank"
+				mdui-tooltip="{content: 'GitHub'}"
+				style="color: rgb(25, 23, 23); background-color: rgba(25, 23, 23, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-github
+					"
+				></i>
+			</a>
+		
+			<a
+				class="mdui-ripple"
+				href="https://www.linkedin.com/in/your-linkedin-id/"
+				target="_blank"
+				mdui-tooltip="{content: 'LinkedIn'}"
+				style="color: rgb(165, 15, 15); background-color: rgba(165, 15, 15, .15);"
+			>
+				<i
+					class="kirafont
+					
+						icon-linkedin
+					"
+				></i>
+			</a>
+		
+	</div>
+</div>
+
+		
+			
+		
+			
+	<div class="kira-widget-wrap">
+		<div id="randomtagcloud" class="kira-widget tagcloud kira-rainbow">
+			<a href="/tags/Deep-Learning-Method/" style="font-size: 10px;">Deep Learning Method</a> <a href="/tags/Paper-Reading-Pathology/" style="font-size: 10px;">Paper Reading(Pathology)</a> <a href="/tags/TOEFL/" style="font-size: 10px;">TOEFL</a> <a href="/tags/game/" style="font-size: 10px;">game</a> <a href="/tags/pytorch/" style="font-size: 15px;">pytorch</a> <a href="/tags/todo/" style="font-size: 10px;">todo</a> <a href="/tags/%E6%97%A5%E5%AF%84/" style="font-size: 20px;">日寄</a>
+		</div>
+		
+	</div>
+
+
+		
+			
+	<div class="kira-widget-wrap">
+		<h3 class="kira-widget-title">
+			Archive
+		</h3>
+		<div class="kira-widget">
+			<ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/">2025</a><span class="archive-list-count">30</span></li></ul>
+		</div>
+	</div>
+
+
+		
+	</aside>
+	<div class="kira-copyright">
+		&copy; 2025
+		<a href="/">Adam Chen</a>
+		Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> &
+		<a href="https://github.com/ch1ny/kira-hexo/" target="_blank">Kira-Hexo</a>
+		<br />
+		
+		
+	</div>
+</div>
+<div
+	class="kira-sidebar-modal"
+	id="sidebar-modal"
+	onclick="(function(self) {
+		self.classList.remove('show');
+		document.querySelector('.kira-sidebar.show#sidebar').classList.remove('show');
+	})(this)"
+></div>
+			<div class="kira-content">
+				<div id="kira-top-header"></div>
+				<div class="kira-main-content">
+					
+<link rel="stylesheet" href="/css/kira-image.css">
+
+
+<script src="/js/kira-image.js"></script>
+
+<div class="kira-image">
+    <div class="kira-image-modal">
+        <div class="kira-image-header">
+            <div class="kira-image-counter"></div>
+            <div class="kira-image-title"></div>
+            <div class="kira-image-operation">
+                <div class="kira-image-operation-button" id="kira-image-operation-button-zoom">
+                    <i class="kirafont icon-zoom-in"></i>
+                </div>
+                <div class="kira-image-operation-button" id="kira-image-operation-button-close">
+                    <i class="kirafont icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="kira-image-container">
+            <div class="kira-image-prev-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-left"></i>
+                </div>
+            </div>
+            <div class="kira-image-list">
+                <div class="kira-image-prev">
+                    <img />
+                </div>
+                <div class="kira-image-now">
+                    <img />
+                </div>
+                <div class="kira-image-next">
+                    <img />
+                </div>
+            </div>
+            <div class="kira-image-next-button-panel">
+                <div class="kira-image-exchange-button">
+                    <i class="kirafont icon-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+<link rel="stylesheet" href="/css/kira-code-copy.css">
+
+	
+<script src="/js/kira-code-copy.js"></script>
+
+
+<div class="kira-post">
+	<article>
+		
+		<div
+			class="kira-post-cover"
+			style="padding-bottom: '56.25%'"
+		>
+			<img
+				data-src="/img/bg.png"
+				data-sizes="auto"
+				alt=""
+				class="lazyload kira-post-cover-image disabled-kira-image"
+			/>
+			<h1></h1>
+		</div>
+		
+		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
+			<a><i class="kirafont icon-calendar-fill"></i>2025年09月24日</a>
+			<a><i class="kirafont icon-edit-fill"></i>552 字</a>
+			<a><i class="kirafont icon-time-circle-fill"></i>大概 3 分钟</a>
+		</div>
+		<html lang="en"><head>
+
+  
+    <meta charset="utf-8">
+    <title>Yuanzhong Chen (Adam) – Personal Website</title>
+    <meta name="description" content="Personal website of Yuanzhong Chen (Adam), a Computer Science and Mathematics student at HKUST interested in machine learning, embodied AI, and medical image analysis research.">
+
+    <link rel="icon" type="image/png" href="/icon/32x32.png">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon/180x180.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Yuanzhong Chen (Adam) – Personal Website">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#c1f4f6">
+
+    <meta property="og:title" content="Yuanzhong Chen (Adam) – Personal Website">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://517adam.github.io/">
+    <meta property="og:image" content="https://517adam.github.io/icon/og-img1.png">
+    <meta name="og:description" content="Personal website of Yuanzhong Chen (Adam test), a Computer Science and Mathematics student at HKUST interested in machine learning, embodied AI, and medical image analysis research.">
+    <link rel="manifest" href="/manifest.json">
+    <script type="module" crossorigin="" src="/assets/index-BOD-ojco.js"></script>
+    <link rel="stylesheet" crossorigin="" href="/assets/index-lxSsVNna.css">
+  </head>
+
+  <body>
+    <div id="home"></div>
+
+    <canvas class="webgl"></canvas>
+
+    <div id="hero-backup">
+      <h3><span id="hi-there-im">Hi there, I'm</span></h3>
+      <h1><span id="yuanzhong-chen-adam">Yuanzhong Chen (Adam)</span></h1>
+      <ul>
+        <li>Computer Science &amp; Mathematics Student</li>
+        <li>HKUST</li>
+      </ul>
+    </div>
+
+    <nav>
+      <div class="menu-btn">
+        <button class="btn" onclick="toggleMenu()">
+          <svg width="16" height="16">
+            <rect class="st0" width="16" height="3.2"></rect>
+            <rect y="6.4" class="st0" width="16" height="3.2"></rect>
+            <rect y="12.8" class="st0" width="16" height="3.2"></rect>
+          </svg>
+        </button>
+        <div style="display: flex">
+          <a class="btn" href="https://www.linkedin.com/in/yuanzhong-chen-adam/" target="_blank">
+            <svg width="16" height="16">
+              <path d="M0.1,2c0-1,0.8-1.8,1.9-1.8c1,0,1.8,0.9,1.8,1.8c0,1-0.8,1.9-1.8,1.9C0.9,3.9,0.1,3.1,0.1,2z M0.1,5h3.7v9.8
+                H0.1V5z"></path>
+              <path d="M15.9,8.5v6.2h-3.5V9.4c0-0.9-0.6-1.6-1.5-1.6c-0.8,0-1.4,0.6-1.4,1.5v5.5H5.8V5h3.7v1
+                c0.6-0.7,1.6-1.2,2.8-1.2C14.4,4.7,15.9,6.3,15.9,8.5z"></path>
+            </svg>
+          </a>
+          <a class="btn" href="https://github.com/517adam" target="_blank">
+            <svg width="16" height="16">
+              <path d="M10.6,12.9c0-1-0.3-1.6-0.7-2c2.4-0.3,4.9-1.1,4.9-5.2c0-1.1-0.4-2.1-1.1-2.9c0.1-0.3,0.5-1.3-0.1-2.8
+                c0,0-0.9-0.3-3,1.1c-1.7-0.5-3.6-0.5-5.4,0c-2-1.4-3-1.1-3-1.1C1.6,1.4,2,2.5,2.1,2.8C1.4,3.5,1,4.6,1,5.6c0,4.1,2.5,5,4.9,5.3
+                c-0.4,0.4-0.6,0.9-0.7,1.4c-0.6,0.3-2.2,0.7-3.1-0.9c0,0-0.6-1-1.6-1.1c0,0-1.1,0-0.1,0.7c0,0,0.7,0.3,1.1,1.6c0,0,0.6,2.1,3.6,1.5
+                c0,0.9,0,1.8,0,1.8h5.3C10.6,15.9,10.6,14.4,10.6,12.9z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="menu-body" onclick="closeMenu()">
+        <a href="#home" onclick="closeMenu()">Home</a>
+        <a href="#aboutMe" onclick="closeMenu()">About</a>
+        <a href="#education" onclick="closeMenu()">Education</a>
+        <a href="#projects" onclick="closeMenu()">Projects</a>
+        <a href="#blog" onclick="closeMenu()">Blog &amp; Notes</a>
+        <a href="#contact" onclick="closeMenu()">Contact</a>
+      </div>
+
+      <div id="tip-scroll">Scroll ↓</div>
+    </nav>
+
+    <main>
+      <section>
+        <h1><span id="hi-there">Hi there</span></h1>
+        <p>
+          Hi! I'm a third-year Computer Science and Mathematics double major at 
+          the Hong Kong University of Science and Technology (HKUST). I have also 
+          joined the International Honors Program at Stanford University. I am 
+          currently conducting research with Professor Chen Hao in medical image 
+          analysis.
+        </p>
+        <p>
+          Having taken several courses in machine learning, I am deeply interested 
+          in the field, both in its theoretical foundations and practical applications. 
+          Recently I am learning something related to embodied AI and robotics.
+        </p>
+        <p>
+          In my free time, I am interested in a large range of games including 
+          HoYoverse games, Terraria/Minecraft, The Binding of Isaac, etc. If you 
+          like these games, please come and communicate with me!
+        </p>
+      </section>
+
+      <section>
+        <h1><span id="education">Education</span></h1>
+        <h2><span id="the-hong-kong-university-of-science-and-technology-hkust">The Hong Kong University of Science and Technology (HKUST)</span></h2>
+        <h3><span id="2023-2027-expected">2023-2027 (Expected)</span></h3>
+        <ul class="skills">
+          <li>Computer Science</li>
+          <li>Mathematics</li>
+          <li>Double Major</li>
+          <li>Year 3</li>
+        </ul>
+        <p>
+          Currently pursuing a double major in Computer Science and Mathematics. 
+          Also participating in the International Honors Program at Stanford University. 
+          Conducting research in medical image analysis under Professor Chen Hao.
+        </p>
+        <hr>
+        <h2><span id="hefei-no1-high-school">Hefei No.1 High School</span></h2>
+        <h3><span id="experimental-class-of-the-strengthening-basic-disciplines-plan">Experimental Class of the Strengthening Basic Disciplines Plan</span></h3>
+        <ul class="skills">
+          <li>Mathematics</li>
+          <li>Science</li>
+          <li>Foundation Program</li>
+        </ul>
+        <p>
+          Completed high school education in the Strong Foundation Class program, 
+          focusing on advanced mathematics and science preparation for university studies.
+        </p>
+      </section>
+
+      <section>
+        <h1><span id="projects">Projects</span></h1>
+        
+        <h2><span id="pathology-report-generation-from-wsi-ongoing">Pathology Report Generation from WSI (Ongoing)</span></h2>
+        <h3><span id="2024-present">2024-Present</span></h3>
+        <ul class="skills">
+          <li>Python</li>
+          <li>PyTorch</li>
+          <li>MLLM</li>
+          <li>Generative AI</li>
+          <li>Foundation Model</li>
+        </ul>
+        <p>
+          Research project focusing on generating pathology reports from Whole Slide Images 
+          using multimodal large language models and generative AI techniques. This work is 
+          conducted under the supervision of Professor Chen Hao in medical image analysis.
+        </p>
+        <hr>
+
+        <h2><span id="zero-shot-spatial-reasoning-with-llm">Zero-shot Spatial Reasoning with LLM</span></h2>
+        <h3><span id="2024">2024</span></h3>
+        <ul class="skills">
+          <li>Python</li>
+          <li>PyTorch</li>
+          <li>LLM</li>
+          <li>vLLM</li>
+        </ul>
+        <p>
+          Course project for COMP5214 (Advanced Deep Learning Architecture). We assessed 
+          the ability of spatial reasoning of LLM, which performed better than some basic 
+          vLLM models. The LLM could generate more humanoid actions than traditional algorithms. 
+          Moreover, LLM performed better in multi-agent scenarios with collision possibilities.
+        </p>
+        <hr>
+
+        <h2><span id="robot-car-from-scratch">Robot Car from Scratch</span></h2>
+        <h3><span id="2023">2023</span></h3>
+        <ul class="skills">
+          <li>C</li>
+          <li>Arduino</li>
+          <li>Hardware</li>
+          <li>Electronics</li>
+        </ul>
+        <p>
+          Course project for ELEC1100 (Introduction to Electronics and Robotics). 
+          My first hands-on project where we built a line-following car from scratch 
+          using motors, breadboards, sensors, and other electronic components. This project 
+          gave me practical experience with embedded systems and robotics.
+        </p>
+        <hr>
+      </section>
+
+      <section>
+        <h1><span id="blog--notes">Blog &amp; Notes</span></h1>
+        <p style="text-align: center">
+          Check out my
+          <a href="https://517adam.github.io/" target="_blank">
+            <u><b>Blog</b></u>
+          </a>
+          for technical posts, project updates, and daily thoughts.
+        </p>
+        <p style="text-align: center">
+          You can also find my class notes and study materials there, 
+          covering topics in machine learning, mathematics, computer science, and more.
+        </p>
+      </section>
+
+      <section>
+        <h1><span id="contact">Contact</span></h1>
+        <p style="text-align: center">
+          Reach out on
+          <a href="https://www.linkedin.com/in/yuanzhong-chen-adam/" target="_blank">
+            <u><b>LinkedIn</b></u>
+          </a>
+          or
+          <a href="https://github.com/517adam/" target="_blank">
+            <u><b>GitHub</b></u>
+          </a>
+        </p>
+        <p style="text-align: center">
+          Email: <a href="mailto:ychenew@connect.ust.hk">ychenew@connect.ust.hk</a>
+        </p>
+      </section>
+    </main>
+
+    <input type="text" id="textarea" readonly="">
+    <div id="loading">
+      <h2><span id="booting">Booting...</span></h2>
+      <div id="loading-bar">
+        <div id="loading-bar-progress"></div>
+      </div>
+      <div id="loading-items">Starting...</div>
+    </div>
+    <footer>
+      <div>Developed + Designed by Yuanzhong Chen (Adam).</div>
+      <div>Computer design based on the Commodore PET 8296.</div>
+      <div>
+        Built on the traditional land of the Wurundjeri and Boon Wurrung peoples
+        of the Kulin nation. I pay my respect to Elders past, present and
+        emerging.
+      </div>
+      <div>
+        Sovereignty has never been ceded. It always was and always will be
+        Aboriginal land.
+      </div>
+      <div>COPYRIGHT © 2022-2025 Yuanzhong Chen (Adam).</div>
+    </footer>
+    <script>
+      function closeMenu() {
+        document.getElementsByTagName("nav")[0].classList.remove(["active"]);
+      }
+
+      function toggleMenu() {
+        const nav = document.getElementsByTagName("nav")[0];
+        if (nav.classList.contains("active")) {
+          nav.classList.remove(["active"]);
+        } else {
+          nav.classList.add("active");
+        }
+      }
+    </script>
+    <script fetchpriority="high" src="https://cdn-ts.netlify.app/webgl-helper@3.0.11/webgl-helper.min.js"></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EDNKHGV4HB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-EDNKHGV4HB");
+      gtag("event", "origin", { name: window.origin });
+    </script>
+  
+</body></html>
+	</article>
+
+	 
+    <div class="kira-post-copyright">
+        <strong>Author：</strong>Adam Chen<br>
+        <strong>Link：</strong><a href="https://517adam.github.io/aboutme/index.html" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;aboutme&#x2F;index.html" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;aboutme&#x2F;index.html</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+  
+	<div class="kira-post-meta kira-rainbow">
+		
+		
+	</div>
+	
+	<div class="kira-post-footer">
+		
+
+		
+	</div>
+	
+</div>
+
+				</div>
+			</div>
+			<div class="kira-right-column">
+	<a onclick="document.querySelector('#kira-top-header').scrollIntoView({behavior: 'smooth'});" class="kira-backtotop" aria-label="回到顶部" title="回到顶部">
+		<button class="mdui-fab mdui-ripple">
+			<i class="kirafont icon-caret-up"></i>
+		</button>
+	</a>
+</div>
+
+		</div>
+	</body>
+</html>
