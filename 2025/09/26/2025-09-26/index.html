@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="/css/layout.css">
 
 		
-		<title> pytorch-day02 -  Yuanzhong Chen&#39;s Blog</title>
+		<title> Fri Sep 26 2025 00:00:00 GMT+0800 (中国标准时间) -  Yuanzhong Chen&#39;s Blog</title>
 		<!-- <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" /> -->
 		<!-- <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script> -->
 		
@@ -333,39 +333,26 @@
 			<img
 				data-src="/img/bg.png"
 				data-sizes="auto"
-				alt="pytorch-day02"
+				alt="Fri Sep 26 2025 00:00:00 GMT+0800 (中国标准时间)"
 				class="lazyload kira-post-cover-image disabled-kira-image"
 			/>
-			<h1>pytorch-day02</h1>
+			<h1>Fri Sep 26 2025 00:00:00 GMT+0800 (中国标准时间)</h1>
 		</div>
 		
 		<div class="kira-post-meta kira-rainbow" style="margin:10px 0!important;">
-			<a><i class="kirafont icon-calendar-fill"></i>2025年08月26日</a>
-			<a><i class="kirafont icon-edit-fill"></i>282 字</a>
+			<a><i class="kirafont icon-calendar-fill"></i>2025年09月26日</a>
+			<a><i class="kirafont icon-edit-fill"></i>194 字</a>
 			<a><i class="kirafont icon-time-circle-fill"></i>大概 1 分钟</a>
 		</div>
-		<html><head></head><body><h2><span id="image-data-modeling-example">Image data Modeling example</span></h2><h3><span id="prepare-dataset">Prepare dataset</span></h3><ul>
-<li>Using cifr-2 as an example</li>
-<li>Import necessary pakcage<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch </span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset,DataLoader</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms <span class="keyword">as</span> T</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets </span><br></pre></td></tr></tbody></table></figure>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># define helper function</span></span><br><span class="line">transform_img = T.Compose(</span><br><span class="line">    [T.ToTensor()])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">transform_label</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> torch.tensor([x]).<span class="built_in">float</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># load dataset using Imagefolder</span></span><br><span class="line">ds_train = datasets.ImageFolder(<span class="string">"./eat_pytorch_datasets/cifar2/train/"</span>,</span><br><span class="line">            transform = transform_img,target_transform = transform_label)</span><br><span class="line">ds_val = datasets.ImageFolder(<span class="string">"./eat_pytorch_datasets/cifar2/test/"</span>,</span><br><span class="line">            transform = transform_img,target_transform = transform_label)</span><br><span class="line"><span class="built_in">print</span>(ds_train.class_to_idx)    </span><br><span class="line"></span><br><span class="line"><span class="comment"># convert into data loader</span></span><br><span class="line">dl_train = DataLoader(ds_train,batch_size = <span class="number">50</span>,shuffle = <span class="literal">True</span>)</span><br><span class="line">dl_val = DataLoader(ds_val,batch_size = <span class="number">50</span>,shuffle = <span class="literal">False</span>)</span><br></pre></td></tr></tbody></table></figure></li>
-<li>The deault order of pytorch img is : (Batch,Channel,Width,Height)</li>
-</ul>
-<h2><span id="define-the-model">Define the model</span></h2><ul>
-<li>是我喜欢的模型定义方式，直接背下来<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">net</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">net, self</span>):</span><br><span class="line">    <span class="comment"># Define the architecture</span></span><br><span class="line">        <span class="variable language_">self</span>.conv1 = nn.Conv2d(in_channels=<span class="number">3</span>,out_channels=<span class="number">32</span>,kernel_size = <span class="number">3</span>)</span><br><span class="line">        <span class="variable language_">self</span>.pool = nn.MaxPool2d(kernel_size = <span class="number">2</span>,stride = <span class="number">2</span>)</span><br><span class="line">        <span class="variable language_">self</span>.conv2 = nn.Conv2d(in_channels=<span class="number">32</span>,out_channels=<span class="number">64</span>,kernel_size = <span class="number">5</span>)</span><br><span class="line">        <span class="variable language_">self</span>.dropout = nn.Dropout2d(p = <span class="number">0.1</span>)</span><br><span class="line">        <span class="variable language_">self</span>.adaptive_pool = nn.AdaptiveMaxPool2d((<span class="number">1</span>,<span class="number">1</span>))</span><br><span class="line">        <span class="variable language_">self</span>.flatten = nn.Flatten()</span><br><span class="line">        <span class="variable language_">self</span>.linear1 = nn.Linear(<span class="number">64</span>,<span class="number">32</span>)</span><br><span class="line">        <span class="variable language_">self</span>.relu = nn.ReLU()</span><br><span class="line">        <span class="variable language_">self</span>.linear2 = nn.Linear(<span class="number">32</span>,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Do the forward propagation</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self,x</span>):</span><br><span class="line">        x = <span class="variable language_">self</span>.conv1(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.pool(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.conv2(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.pool(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.dropout(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.adaptive_pool(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.flatten(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.linear1(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.relu(x)</span><br><span class="line">        x = <span class="variable language_">self</span>.linear2(x)</span><br><span class="line">        <span class="keyword">return</span> x </span><br><span class="line">        </span><br><span class="line">net = Net()</span><br><span class="line"><span class="built_in">print</span>(net)</span><br></pre></td></tr></tbody></table></figure></li>
-</ul>
-<h2><span id="training-the-model">Training the model</span></h2><ul>
-<li>不是我喜欢的style，直接不管</li>
-</ul>
-<h3><span id="something-else">Something else</span></h3><ul>
-<li>Saving the model, using the model, and eval the model follows the same procedure of Day01. omit here.</li>
-</ul>
+		<html><head></head><body><p>仔细想来每个星期都说要好好research，细细想来这周竟然只有两天在干活，真是给自己气笑了，每天也不知道在干什么。托福今年还必须要考掉，也就是说要开始背单词背口语背写作了，或许我应该每天能够保持集中学习的情况下再晚睡一会，稍微拼他两个月呢。</p>
+<p>或许我就是这样什么事也做不成的人，还有奖学金的表格没有确认，还有交换的表格没有填完，唉明天meeting完先把交换的表格搞定吧。希望没有问题。但是有一说一，那个表格的很多信息估计真的是无人在意。谁知道呢。</p>
 </body></html>
 	</article>
 
 	 
     <div class="kira-post-copyright">
         <strong>Author：</strong>Adam Chen<br>
-        <strong>Link：</strong><a href="https://517adam.github.io/2025/08/26/pytorch-day02/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;26&#x2F;pytorch-day02&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;08&#x2F;26&#x2F;pytorch-day02&#x2F;</a><br>
+        <strong>Link：</strong><a href="https://517adam.github.io/2025/09/26/2025-09-26/" title="https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;09&#x2F;26&#x2F;2025-09-26&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;517adam.github.io&#x2F;2025&#x2F;09&#x2F;26&#x2F;2025-09-26&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -381,7 +368,7 @@
 	<div class="kira-post-meta kira-rainbow">
 		
 		
-			<a class="kirafont icon-tag-fill -none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
+			<a class="kirafont icon-tag-fill -none-link" href="/tags/%E6%97%A5%E5%AF%84/" rel="tag">日寄</a>
 		
 	</div>
 	
