@@ -1,0 +1,249 @@
+:root {
+  --liquid-glass-bg: rgba(255, 255, 255, 0.42);
+  --liquid-glass-bg-strong: rgba(255, 255, 255, 0.58);
+  --liquid-glass-line: rgba(255, 255, 255, 0.55);
+  --liquid-glass-shadow: rgba(20, 32, 52, 0.16);
+  --liquid-glass-inner: rgba(255, 255, 255, 0.36);
+  --liquid-glass-tint: rgba(116, 188, 255, 0.16);
+  --liquid-glass-x: 50%;
+  --liquid-glass-y: 16%;
+}
+
+[data-theme="dark"] {
+  --liquid-glass-bg: rgba(20, 24, 32, 0.48);
+  --liquid-glass-bg-strong: rgba(28, 33, 44, 0.62);
+  --liquid-glass-line: rgba(255, 255, 255, 0.17);
+  --liquid-glass-shadow: rgba(0, 0, 0, 0.38);
+  --liquid-glass-inner: rgba(255, 255, 255, 0.1);
+  --liquid-glass-tint: rgba(106, 168, 255, 0.12);
+}
+
+#nav,
+#recent-posts > .recent-post-items > .recent-post-item,
+#aside-content .card-widget,
+#post,
+#page,
+#archive,
+#tag,
+#category,
+.recent-posts > .recent-post-item,
+#pagination .page-number,
+#pagination .extend,
+#rightside > div > button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--liquid-glass-line) !important;
+  background:
+    radial-gradient(circle at var(--liquid-glass-x) var(--liquid-glass-y), rgba(255, 255, 255, 0.42), transparent 26rem),
+    linear-gradient(135deg, var(--liquid-glass-bg-strong), var(--liquid-glass-bg)) !important;
+  box-shadow:
+    0 18px 45px var(--liquid-glass-shadow),
+    inset 0 1px 0 var(--liquid-glass-inner),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  transform: translateZ(0);
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+#nav::before,
+#recent-posts > .recent-post-items > .recent-post-item::before,
+#aside-content .card-widget::before,
+#post::before,
+#page::before,
+#archive::before,
+#tag::before,
+#category::before,
+.recent-posts > .recent-post-item::before,
+#pagination .page-number::before,
+#pagination .extend::before,
+#rightside > div > button::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 28%, transparent 68%, rgba(255, 255, 255, 0.2)),
+    radial-gradient(circle at 15% 8%, rgba(255, 255, 255, 0.46), transparent 22%),
+    radial-gradient(circle at 88% 92%, var(--liquid-glass-tint), transparent 28%);
+  mix-blend-mode: screen;
+  opacity: 0.66;
+}
+
+#nav::after,
+#recent-posts > .recent-post-items > .recent-post-item::after,
+#aside-content .card-widget::after,
+#post::after,
+#page::after,
+#archive::after,
+#tag::after,
+#category::after,
+.recent-posts > .recent-post-item::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 7px);
+  opacity: 0.35;
+}
+
+#nav {
+  top: 12px;
+  right: 12px;
+  left: 12px;
+  width: calc(100% - 24px);
+  border-radius: 18px;
+}
+
+#page-header.nav-fixed #nav,
+#page-header.not-top-img #nav {
+  top: 8px;
+}
+
+#page-header #nav a,
+#page-header #nav span {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.28);
+}
+
+#recent-posts > .recent-post-items > .recent-post-item,
+#aside-content .card-widget,
+#post,
+#page,
+#archive,
+#tag,
+#category,
+.recent-posts > .recent-post-item {
+  border-radius: 18px !important;
+}
+
+#recent-posts > .recent-post-items > .recent-post-item:hover,
+#aside-content .card-widget:hover,
+#post:hover,
+#page:hover,
+#archive:hover,
+#tag:hover,
+#category:hover,
+.recent-posts > .recent-post-item:hover,
+#pagination .page-number:hover,
+#pagination .extend:hover,
+#rightside > div > button:hover {
+  transform: translateY(-4px) scale(1.006);
+  border-color: rgba(255, 255, 255, 0.72) !important;
+  box-shadow:
+    0 24px 60px var(--liquid-glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+.liquid-glass-pressed {
+  transform: translateY(1px) scale(0.992) !important;
+}
+
+#card-info-btn,
+.article-sort-title,
+.article-sort-item,
+.card-archive-list-link,
+.aside-list-item,
+.menus_item .site-page,
+.social-icon,
+#site_social_icons .social-icon {
+  border-radius: 999px;
+  transition:
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+#card-info-btn,
+#site_social_icons .social-icon,
+.card-archive-list-link:hover,
+.menus_item .site-page:hover,
+.aside-list-item:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+}
+
+#footer {
+  background: transparent !important;
+}
+
+#footer::before {
+  background: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  #nav,
+  #recent-posts > .recent-post-items > .recent-post-item,
+  #aside-content .card-widget,
+  #post,
+  #page,
+  #archive,
+  #tag,
+  #category,
+  .recent-posts > .recent-post-item {
+    background: rgba(255, 255, 255, 0.88) !important;
+  }
+
+  [data-theme="dark"] #nav,
+  [data-theme="dark"] #recent-posts > .recent-post-items > .recent-post-item,
+  [data-theme="dark"] #aside-content .card-widget,
+  [data-theme="dark"] #post,
+  [data-theme="dark"] #page,
+  [data-theme="dark"] #archive,
+  [data-theme="dark"] #tag,
+  [data-theme="dark"] #category,
+  [data-theme="dark"] .recent-posts > .recent-post-item {
+    background: rgba(20, 24, 32, 0.9) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #nav {
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    width: calc(100% - 16px);
+    border-radius: 14px;
+  }
+
+  #recent-posts > .recent-post-items > .recent-post-item,
+  #aside-content .card-widget,
+  #post,
+  #page,
+  #archive,
+  #tag,
+  #category {
+    border-radius: 14px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #nav,
+  #recent-posts > .recent-post-items > .recent-post-item,
+  #aside-content .card-widget,
+  #post,
+  #page,
+  #archive,
+  #tag,
+  #category,
+  .recent-posts > .recent-post-item,
+  #pagination .page-number,
+  #pagination .extend,
+  #rightside > div > button {
+    transition: none;
+  }
+}

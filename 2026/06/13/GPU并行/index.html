@@ -1,0 +1,309 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>GPU并行 | Yuanzhong Chen's Blog</title><meta name="author" content="Adam Chen"><meta name="copyright" content="Adam Chen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一些前置的东西SIMD(Single Instruction, Multiple Data) 属于硬件&#x2F;指令集层面，是硬件能力，一条指令对一排数据做同样的计算。要求所有数据走完全一致的运算路径，不能各走各的分支  SIMT(Single Instruction, Multiple Threads) 是NVIDIA为GPU造的词，属于硬件执行模型层，是硬件和编程模型中间的“桥”。一个Wra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GPU并行">
+<meta property="og:url" content="https://517adam.github.io/blog/2026/06/13/GPU%E5%B9%B6%E8%A1%8C/index.html">
+<meta property="og:site_name" content="Yuanzhong Chen&#39;s Blog">
+<meta property="og:description" content="一些前置的东西SIMD(Single Instruction, Multiple Data) 属于硬件&#x2F;指令集层面，是硬件能力，一条指令对一排数据做同样的计算。要求所有数据走完全一致的运算路径，不能各走各的分支  SIMT(Single Instruction, Multiple Threads) 是NVIDIA为GPU造的词，属于硬件执行模型层，是硬件和编程模型中间的“桥”。一个Wra">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://517adam.github.io/blog/img/avatar1.jpeg">
+<meta property="article:published_time" content="2026-06-13T19:50:00.000Z">
+<meta property="article:modified_time" content="2026-06-13T21:15:27.554Z">
+<meta property="article:author" content="Adam Chen">
+<meta property="article:tag" content="AI-infra">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://517adam.github.io/blog/img/avatar1.jpeg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "GPU并行",
+  "url": "https://517adam.github.io/blog/2026/06/13/GPU%E5%B9%B6%E8%A1%8C/",
+  "image": "https://517adam.github.io/blog/img/avatar1.jpeg",
+  "datePublished": "2026-06-13T19:50:00.000Z",
+  "dateModified": "2026-06-13T21:15:27.554Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Adam Chen",
+      "url": "https://517adam.github.io/blog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/blog/img/websiteicon.jpg"><link rel="canonical" href="https://517adam.github.io/blog/2026/06/13/GPU%E5%B9%B6%E8%A1%8C/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/blog/css/index.css?v=5.5.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/blog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"Author: Adam Chen","link":"Link: ","source":"Source: Yuanzhong Chen's Blog","info":"Copyright belongs to the author. For commercial use, please contact the author for authorization. For non-commercial use, please indicate the source."}},
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'GPU并行',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/blog/css/liquid-glass.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(/blog/img/bg.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/blog/img/avatar1.jpeg" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/blog/archives/"><div class="headline">Articles</div><div class="length-num">57</div></a><a href="/blog/tags/"><div class="headline">Tags</div><div class="length-num">9</div></a><a href="/blog/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw icon-home"></i><span> 回到首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archive.html"><i class="fa-fw icon-container"></i><span> 文章归档</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://myclassnotes.notion.site/11b1035d5445807ab72efc9690d1191a?v=11b1035d54458175b6c4000cc704dbcf&amp;source=copy_link"><i class="fa-fw icon-book"></i><span> 学习笔记</span></a></div><div class="menus_item"><a class="site-page" href="https://517adam.github.io/aboutme/"><i class="fa-fw icon-user"></i><span> 关于本人</span></a></div><div class="menus_item"><a class="site-page" href="/blog/friends.html"><i class="fa-fw icon-team"></i><span> 我的朋友</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/blog/img/bg.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/blog/"><img class="site-icon" src="/blog/img/websiteicon.jpg" alt="Logo"><span class="site-name">Yuanzhong Chen's Blog</span></a><a class="nav-page-title" href="/blog/"><span class="site-name">GPU并行</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw icon-home"></i><span> 回到首页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/archive.html"><i class="fa-fw icon-container"></i><span> 文章归档</span></a></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://myclassnotes.notion.site/11b1035d5445807ab72efc9690d1191a?v=11b1035d54458175b6c4000cc704dbcf&amp;source=copy_link"><i class="fa-fw icon-book"></i><span> 学习笔记</span></a></div><div class="menus_item"><a class="site-page" href="https://517adam.github.io/aboutme/"><i class="fa-fw icon-user"></i><span> 关于本人</span></a></div><div class="menus_item"><a class="site-page" href="/blog/friends.html"><i class="fa-fw icon-team"></i><span> 我的朋友</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">GPU并行</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2026-06-13T19:50:00.000Z" title="Created 2026-06-13 21:50:00">2026-06-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2026-06-13T21:15:27.554Z" title="Updated 2026-06-13 23:15:27">2026-06-13</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="一些前置的东西"><a href="#一些前置的东西" class="headerlink" title="一些前置的东西"></a>一些前置的东西</h1><h2 id="SIMD-Single-Instruction-Multiple-Data"><a href="#SIMD-Single-Instruction-Multiple-Data" class="headerlink" title="SIMD(Single Instruction, Multiple Data)"></a>SIMD(Single Instruction, Multiple Data)</h2><ul>
+<li>属于<strong>硬件&#x2F;指令集</strong>层面，是硬件能力，一条指令对一排数据做同样的计算。要求所有数据走完全一致的运算路径，不能各走各的分支</li>
+</ul>
+<h2 id="SIMT-Single-Instruction-Multiple-Threads"><a href="#SIMT-Single-Instruction-Multiple-Threads" class="headerlink" title="SIMT(Single Instruction, Multiple Threads)"></a>SIMT(Single Instruction, Multiple Threads)</h2><ul>
+<li>是NVIDIA为GPU造的词，属于硬件执行模型层，是硬件和编程模型中间的“桥”。一个Wrap(32个线程)共用一条指令流，但每个线程有自己的寄存器，自己的内存地址，甚至可以走不同分支。本质是用SIMD的底层硬件，封装成一堆看起来独立的线程。</li>
+</ul>
+<h2 id="SPMD-Single-Program-Multiple-Data"><a href="#SPMD-Single-Program-Multiple-Data" class="headerlink" title="SPMD(Single Program, Multiple Data)"></a>SPMD(Single Program, Multiple Data)</h2><ul>
+<li><p>是变成模型，和硬件解耦。所有进程&#x2F;线程跑同一份代码，处理不同数据。运行时可以走各自的不同路径，停在不同位置。这不要求指令级同步。它可以跑在完全独立的多核&#x2F;集群硬件上</p>
+</li>
+<li><p>写CUDA使用SPMD思维，GPU使用SIMT执行模型调度，硬件底层通过SIMD式的向量单元。三层串成一条链</p>
+</li>
+</ul>
+<h2 id="Flynn-分类法"><a href="#Flynn-分类法" class="headerlink" title="Flynn 分类法"></a>Flynn 分类法</h2><ul>
+<li>这种分类法将 “数据流 x 指令流”将架构分为四类<ul>
+<li>SISD: 传统单核顺序执行</li>
+<li>SIMD： 单指令多数据，如上</li>
+<li>MISD： 多指令处理同一条数据，及其罕见</li>
+<li>MIMD： 每个核跑自己的指令，自己的数据，多核CPU，计算集群多是它</li>
+</ul>
+</li>
+<li>在编程模型层，还有：MPMD：不同节点跑不同程序，比如master-worker架构，或者耦合仿真</li>
+<li>其他类似的东西：<ul>
+<li>SWAR(SIMD within a Register)：不用专门的向量指令，将多个小数据塞进一个普通通用寄存器手动并行，是“穷人版”的SIMD</li>
+<li>SMT(Simultaneous Multithreading)：一个物理核同时跑多个线程来填满流水线空袭，是线程并行级技术，不在Flynn分类中</li>
+</ul>
+</li>
+</ul>
+<h1 id="并行范式"><a href="#并行范式" class="headerlink" title="并行范式"></a>并行范式</h1><p>从底层到顶层分别是：<br>体系结构 -&gt; 变成模型 -&gt; 业务场景   </p>
+<table>
+<thead>
+<tr>
+<th>层级分类</th>
+<th>分类标准</th>
+<th>对应内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>体系结构</td>
+<td>硬件原生的并行能力，并行的物理根源</td>
+<td>SIMD、 MIMD (SPMD)</td>
+</tr>
+<tr>
+<td>编程模型</td>
+<td>开发者视角的通用并行逻辑，硬件与软件的桥梁</td>
+<td>数据并行、 任务并行、 线程并行</td>
+</tr>
+<tr>
+<td>务场景</td>
+<td>针对特定业务&#x2F;计算场景的专属并行模式</td>
+<td>管道并行、MapReduce、图计算并行</td>
+</tr>
+</tbody></table>
+<ul>
+<li>GPU适合什么样的并行范式？</li>
+</ul>
+<ul>
+<li>GPU的设计哲学：多小核，弱控制，弱缓存，强并行。<br>GPU本质上是SIMT架构，这一特性决定了计算范式：<ul>
+<li>同质化</li>
+<li>高并行</li>
+<li>无复杂分支</li>
+<li>规整内存访问</li>
+</ul>
+</li>
+</ul>
+
+
+<p>图形渲染并行是GPU的原生设计目标，这一点是显然的，不然为什么要叫GPU<br>    * 顶点处理，片元处理天然具备百万级同质化数据并行度，每个顶点&#x2F;像素处理逻辑完全一致，与GPU的SIMT架构匹配</p>
+<h1 id="数据并行-GPGPU核心范式"><a href="#数据并行-GPGPU核心范式" class="headerlink" title="数据并行(GPGPU核心范式)"></a>数据并行(GPGPU核心范式)</h1><p>数据并行为GPGPU时代的核心范式，是GPU从图形专用扩展至通用计算的核心实现形式</p>
+<h1 id="SIMD-SPMD"><a href="#SIMD-SPMD" class="headerlink" title="SIMD&#x2F;SPMD"></a>SIMD&#x2F;SPMD</h1><p>这是GPU硬件底层的<strong>原生执行范式</strong>， 是所有高层并行范式的硬件基础</p>
+<h1 id="管道并行-流并行"><a href="#管道并行-流并行" class="headerlink" title="管道并行&#x2F;流并行"></a>管道并行&#x2F;流并行</h1><p>管道并行是GPU流式硬件架构原生支持的并行范式</p>
+<h1 id="GPU不适合的并行范式"><a href="#GPU不适合的并行范式" class="headerlink" title="GPU不适合的并行范式"></a>GPU不适合的并行范式</h1><ul>
+<li>细粒度任务并行，分支密集型，通用线程级并行，都属于GPU的短板<br>这一类范式有复杂的控制逻辑，大量分支判断，差异化任务执行逻辑。这些导致Warp内线程分化，造成大量计算核心限制，导致硬件资源利用率低，执行性能低于单核CPU</li>
+</ul>
+<h1 id="GPU"><a href="#GPU" class="headerlink" title="GPU"></a>GPU</h1><p>GPU是为了高吞吐量而优化的，和CPU的设计相反。GPU擅长同时处理海量任务<br>一颗完整的GPU含有以下模块，通过片上互联总线相连 </p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Streaming Multiprocessor (SM)</td>
+<td>GPU的计算核心单元，总算力&#x3D;Σ(SM)</td>
+</tr>
+<tr>
+<td>内存控制器</td>
+<td>负责连接显存与芯片的读写</td>
+</tr>
+<tr>
+<td>全局调度器</td>
+<td>将用户提交的计算任务动态分配给SM执行</td>
+</tr>
+<tr>
+<td>层次化存储体系</td>
+<td>显存、全局内存等多层次存储结构</td>
+</tr>
+</tbody></table>
+<img src="/blog/2026/06/13/GPU%E5%B9%B6%E8%A1%8C/SM.png" class="" title="Streaming Processor 500 400">
+
+<p>SM是GPU调度的最小单元，也是GPU物理架构的核心基本快，每一个SM是一个完整的计算单元，包含以下核心组件：</p>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Warp调度器+指令分发单元</td>
+<td>将线程块拆分为Warp，调度Warp执行</td>
+</tr>
+<tr>
+<td>StreamProcessor(SP)</td>
+<td>GPU最小物理执行单元，极简ALU</td>
+</tr>
+<tr>
+<td>专用加速单元</td>
+<td>SFU等</td>
+</tr>
+<tr>
+<td>寄存器文件</td>
+<td>SM内最快存储，给活跃线程提供私有存</td>
+</tr>
+<tr>
+<td>L1缓存／共享内存</td>
+<td>可配置片上存储，灵活分配</td>
+</tr>
+<tr>
+<td>加载&#x2F;存储单元</td>
+<td>处理线程的内存读写请求</td>
+</tr>
+</tbody></table>
+<h2 id="硬件执行单元Warp"><a href="#硬件执行单元Warp" class="headerlink" title="硬件执行单元Warp"></a>硬件执行单元Warp</h2><ul>
+<li><p>warp是GPU硬件调度和执行的最小单元，由硬件自动生成，固定包含32个Thread<br>GPU采用SIMT架构，一个Warp内所有Thread永远同步执行同一条指令，但是每个Thread处理不同的数据</p>
+</li>
+<li><p>注意：分支发散：</p>
+<ul>
+<li>即使代码中存在分支，warp也会执行所有分支导致空转，从而影响性能<br>当定义一个包含N个Thread的Block时，GPU会自动将Block内的Thread按顺序每32个组成一个Warp。因此block中的thread总数一般设置为32的证书被，避免Warp资源浪费</li>
+</ul>
+</li>
+</ul>
+<h1 id="CUDA"><a href="#CUDA" class="headerlink" title="CUDA"></a>CUDA</h1><p>CUDA是NVIDIA推出的并行计算平台与编程模型，以C++为基础进行语言扩展，同时提供了一套完整的API，用于管理GPU设备</p>
+<h2 id="CUDA的软件线程模型层级"><a href="#CUDA的软件线程模型层级" class="headerlink" title="CUDA的软件线程模型层级"></a>CUDA的软件线程模型层级</h2><p>CUDA在软件层面定义了一套清晰的层级化线程结构，与硬件执行单元解耦，这套层级结构是：<br>Grid -&gt; Block -&gt; Thread</p>
+<h3 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h3><p>Thread  是 kernel函数的一次执行实例，也是CUDA中最小的逻辑执行单元。<br>    - 同一kernel内所有Thread都会执行完全相同的代码，但是Thread通过自己唯一ID，处理数据集中的不同部分<br>    - 逻辑上Thread是最小执行单位，但是GPU永远不会单独调度一个Thread</p>
+<h3 id="Block"><a href="#Block" class="headerlink" title="Block"></a>Block</h3><p>Block是一组Thread组成的中间层逻辑单元，也是GPU将任务分配给SM的最小软件单位<br>    - 同一个block内的所有thread会被分配到同一个SM上执行<br>    - BLock内的thread可通过SM内的共享内存实现高速数据共享，也可以通过 __syncthreads() 等进行线程间同步<br>    - block支持 1D&#x2F;2D&#x2F;3D但是block内tread总数有硬件上限</p>
+<h3 id="Grid"><a href="#Grid" class="headerlink" title="Grid"></a>Grid</h3><p>Grid是 GPU执行一个kernel函数的最上层逻辑单元，一个kernel函数唯一对应一个Grid<br>    - 同一个Grid的Block，都执行同一个Kernel函数，共同处理同一个计算任务<br>    - Grid同样支持1D&#x2F;2D&#x2F;3D索引结构<br>    - Grid内所有Block完全独立，并行执行，无固定顺序。不同Block之间只能通过全局显存通信，无法高效共享数据</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://517adam.github.io/blog">Adam Chen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://517adam.github.io/blog/2026/06/13/GPU%E5%B9%B6%E8%A1%8C/">https://517adam.github.io/blog/2026/06/13/GPU%E5%B9%B6%E8%A1%8C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh">CC BY-NC-SA 3.0 CN</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/blog/tags/AI-infra/">AI-infra</a></div><div class="post-share"><div class="social-share" data-image="/blog/img/avatar1.jpeg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/blog/2026/06/11/triton-intro/" title="Triton 基本模板"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">Triton 基本模板</div></div><div class="info-2"><div class="info-item-1">什么是Triton&#x2F;Pytorch&#x2F;CUDA 显然，接触最多的pytorch是最上层的框架，在pytorch中，最小的计算单位是 Tensor, 我们无需关心矩阵乘法在GPU内部的调度，内存管理等细节，屏蔽了底层所有的硬件细节 对于cuda来说，视角是单个线程。手动管理Grid, BLock控制每一个Thread行为，例如线程读取什么内存，计算什么元素，什么时候同步等;1234int idx = blockIDx.x + blockDim.x + threadIdx.xif (idx &lt; N)&#123;    C[idx] = A[idx] + B[idx]&#125; 此外还要手动管理共享内存，寄存器使用等榨干GPU的性能能 而Triton就显然是折中的方案，它使用分块变成范式，不需要管理但单个线程，而是以Tile为粒度描述计算123456789101112@triton.jitdef add_kernel(A_ptr,B_ptr,C_ptr,N,BLOCK_SIZE: tl.constexpr):    pid = tl.program_id(ax...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/blog/2026/06/11/triton-intro/" title="Triton 基本模板"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-11</div><div class="info-item-2">Triton 基本模板</div></div><div class="info-2"><div class="info-item-1">什么是Triton&#x2F;Pytorch&#x2F;CUDA 显然，接触最多的pytorch是最上层的框架，在pytorch中，最小的计算单位是 Tensor, 我们无需关心矩阵乘法在GPU内部的调度，内存管理等细节，屏蔽了底层所有的硬件细节 对于cuda来说，视角是单个线程。手动管理Grid, BLock控制每一个Thread行为，例如线程读取什么内存，计算什么元素，什么时候同步等;1234int idx = blockIDx.x + blockDim.x + threadIdx.xif (idx &lt; N)&#123;    C[idx] = A[idx] + B[idx]&#125; 此外还要手动管理共享内存，寄存器使用等榨干GPU的性能能 而Triton就显然是折中的方案，它使用分块变成范式，不需要管理但单个线程，而是以Tile为粒度描述计算123456789101112@triton.jitdef add_kernel(A_ptr,B_ptr,C_ptr,N,BLOCK_SIZE: tl.constexpr):    pid = tl.program_id(ax...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/blog/img/avatar1.jpeg" onerror="this.onerror=null;this.src='/blog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Adam Chen</div><div class="author-info-description"></div><div class="site-data"><a href="/blog/archives/"><div class="headline">Articles</div><div class="length-num">57</div></a><a href="/blog/tags/"><div class="headline">Tags</div><div class="length-num">9</div></a><a href="/blog/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/517adam/"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=3190754292" target="_blank" title="QQ"><i class="fab fa-qq" style="color: rgb(49, 174, 255);"></i></a><a class="social-icon" href="https://space.bilibili.com/422483974" target="_blank" title="哔哩哔哩"><i class="fab fa-bilibili" style="color: rgb(231, 106, 141);"></i></a><a class="social-icon" href="https://github.com/517adam/" target="_blank" title="GitHub"><i class="fab fa-github" style="color: rgb(25, 23, 23);"></i></a><a class="social-icon" href="https://www.linkedin.com/in/yzchenadam/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin" style="color: rgb(165, 15, 15);"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">我喜欢你</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E5%89%8D%E7%BD%AE%E7%9A%84%E4%B8%9C%E8%A5%BF"><span class="toc-number">1.</span> <span class="toc-text">一些前置的东西</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SIMD-Single-Instruction-Multiple-Data"><span class="toc-number">1.1.</span> <span class="toc-text">SIMD(Single Instruction, Multiple Data)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SIMT-Single-Instruction-Multiple-Threads"><span class="toc-number">1.2.</span> <span class="toc-text">SIMT(Single Instruction, Multiple Threads)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SPMD-Single-Program-Multiple-Data"><span class="toc-number">1.3.</span> <span class="toc-text">SPMD(Single Program, Multiple Data)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flynn-%E5%88%86%E7%B1%BB%E6%B3%95"><span class="toc-number">1.4.</span> <span class="toc-text">Flynn 分类法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E8%8C%83%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">并行范式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%B9%B6%E8%A1%8C-GPGPU%E6%A0%B8%E5%BF%83%E8%8C%83%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">数据并行(GPGPU核心范式)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SIMD-SPMD"><span class="toc-number">4.</span> <span class="toc-text">SIMD&#x2F;SPMD</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%E5%B9%B6%E8%A1%8C-%E6%B5%81%E5%B9%B6%E8%A1%8C"><span class="toc-number">5.</span> <span class="toc-text">管道并行&#x2F;流并行</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GPU%E4%B8%8D%E9%80%82%E5%90%88%E7%9A%84%E5%B9%B6%E8%A1%8C%E8%8C%83%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">GPU不适合的并行范式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GPU"><span class="toc-number">7.</span> <span class="toc-text">GPU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E6%89%A7%E8%A1%8C%E5%8D%95%E5%85%83Warp"><span class="toc-number">7.1.</span> <span class="toc-text">硬件执行单元Warp</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CUDA"><span class="toc-number">8.</span> <span class="toc-text">CUDA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CUDA%E7%9A%84%E8%BD%AF%E4%BB%B6%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B%E5%B1%82%E7%BA%A7"><span class="toc-number">8.1.</span> <span class="toc-text">CUDA的软件线程模型层级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread"><span class="toc-number">8.1.1.</span> <span class="toc-text">Thread</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Block"><span class="toc-number">8.1.2.</span> <span class="toc-text">Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Grid"><span class="toc-number">8.1.3.</span> <span class="toc-text">Grid</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/06/13/GPU%E5%B9%B6%E8%A1%8C/" title="GPU并行">GPU并行</a><time datetime="2026-06-13T19:50:00.000Z" title="Created 2026-06-13 21:50:00">2026-06-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/06/11/triton-intro/" title="Triton 基本模板">Triton 基本模板</a><time datetime="2026-06-11T21:44:53.000Z" title="Created 2026-06-11 23:44:53">2026-06-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/06/11/pytorch-day10/" title="pytorch-day10">pytorch-day10</a><time datetime="2026-06-11T15:39:16.000Z" title="Created 2026-06-11 17:39:16">2026-06-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/05/06/2026-05-06/" title="Wed May 06 2026 02:00:00 GMT+0200 (中欧夏令时间)">Wed May 06 2026 02:00:00 GMT+0200 (中欧夏令时间)</a><time datetime="2026-05-06T19:35:04.000Z" title="Created 2026-05-06 21:35:04">2026-05-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/blog/2026/03/12/2026-03-12/" title="2026/03/12">2026/03/12</a><time datetime="2026-03-12T09:53:14.000Z" title="Created 2026-03-12 10:53:14">2026-03-12</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Adam Chen</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/blog/js/utils.js?v=5.5.1"></script><script src="/blog/js/main.js?v=5.5.1"></script><div class="js-pjax"></div><script src="/blog/js/liquid-glass.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
