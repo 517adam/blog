@@ -126,9 +126,17 @@
   border-radius: 18px !important;
 }
 
+#recent-posts > .recent-post-items > .recent-post-item[data-post-link] {
+  cursor: pointer;
+}
+
+#recent-posts > .recent-post-items > .recent-post-item[data-post-link]:focus-visible {
+  outline: 2px solid rgb(49, 174, 255);
+  outline-offset: 4px;
+}
+
 #recent-posts > .recent-post-items > .recent-post-item:hover,
 #aside-content .card-widget:hover,
-#post:hover,
 #page:hover,
 #archive:hover,
 #tag:hover,

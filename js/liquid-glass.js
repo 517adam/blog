@@ -3,7 +3,6 @@
   const interactiveSelector = [
     '#recent-posts > .recent-post-items > .recent-post-item',
     '#aside-content .card-widget',
-    '#post',
     '#page',
     '#archive',
     '#tag',
@@ -49,5 +48,31 @@
     document.querySelectorAll('.liquid-glass-pressed').forEach(item => {
       item.classList.remove('liquid-glass-pressed')
     })
+  })
+
+  const cardSelector = '#recent-posts > .recent-post-items > .recent-post-item[data-post-link]'
+  const interactiveChildSelector = 'a, button, input, select, textarea, label, [role="button"]'
+
+  const openPostCard = (card, newTab = false) => {
+    const link = card.dataset.postLink
+    if (!link) return
+    if (newTab) window.open(link, '_blank', 'noopener')
+    else window.location.href = link
+  }
+
+  document.addEventListener('click', event => {
+    if (event.button !== 0) return
+    const card = event.target.closest(cardSelector)
+    if (!card || event.target.closest(interactiveChildSelector)) return
+    if (window.getSelection && window.getSelection().toString().trim()) return
+    openPostCard(card, event.ctrlKey || event.metaKey)
+  })
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return
+    const card = event.target.closest(cardSelector)
+    if (!card || event.target !== card) return
+    event.preventDefault()
+    openPostCard(card, event.ctrlKey || event.metaKey)
   })
 })()
